@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "773981733950",
+    "project_id": "presidentcq-4854b",
+    "storage_bucket": "presidentcq-4854b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773981733950:android:6dc5203d428a727ba83d6f",
+        "android_client_info": {
+          "package_name": "com.codingquokka.presidentcq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773981733950-fjscl2587n09km8315iaueerscgteep2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLGcT3KBf69WAhlg8MinrRtj1_N9gmeAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773981733950-fjscl2587n09km8315iaueerscgteep2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "773981733950-sr1npecfpgthejmdbbd85b2bsfd1gqnt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codingquokka.presidentcq"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
