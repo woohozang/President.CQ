@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
-using Firebase.Database; 
 using UnityEngine.UI;
 
 public class Auth : MonoBehaviour
@@ -31,11 +30,11 @@ public class Auth : MonoBehaviour
             {
                 if(task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
 				{
-                    Debug.Log(emailField.text + "님 로그인 성공");
+                    Debug.Log(emailField.text + "login complete");
 				}
 				else
 				{
-                    Debug.Log("로그인 실패");
+                    Debug.Log("login fail");
 				}
             });
 	}
@@ -47,11 +46,11 @@ public class Auth : MonoBehaviour
             {
                 if(!task.IsFaulted && !task.IsCanceled)
 				{
-                    Debug.Log("회원가입 성공");
+                    Debug.Log("register complete");
 				}                    
                 else
 				{
-                    Debug.Log("회원가입 실패");
+                    Debug.Log("register fail");
 				}
             });
     }
