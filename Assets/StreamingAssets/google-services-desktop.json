@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "773981733950",
+    "firebase_url": "https://presidentcq-4854b-default-rtdb.firebaseio.com",
     "project_id": "presidentcq-4854b",
     "storage_bucket": "presidentcq-4854b.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "773981733950-erriargmvopjm8ct3up64g3c5ca6iud8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codingquokka.presidentcq",
+            "certificate_hash": "43b8226d868d69dc9c314973e7ee58284db11186"
+          }
+        },
         {
           "client_id": "773981733950-fjscl2587n09km8315iaueerscgteep2.apps.googleusercontent.com",
           "client_type": 3
