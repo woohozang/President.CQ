@@ -8,7 +8,10 @@ public class CardManager : MonoBehaviour
     void Awake() => Inst = this;
 
     [SerializeField] ItemSO itemSO;
-
+    [SerializeField] GameObject cardPrefab;
+    [SerializeField] List<Prac_Card> myCards;
+    [SerializeField] List<Prac_Card> otherCards;
+ 
     List<Item> itemBuffer;
 
     public Item PopItem(){
@@ -41,6 +44,15 @@ public class CardManager : MonoBehaviour
 
     void Update(){
         if(Input.GetKeyDown(KeyCode.Keypad1))
-            print(PopItem().name);
+            AddCard(true);
+        if(Input.GetKeyDown(KeyCode.Keypad2))
+            AddCard(false);
+    }
+
+    void AddCard(bool isMine){
+        var cardObject = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity);
+        var card = cardObject.GetComponent<Prac_Card>();
+        card.Setup(PopItem(), isMine);
+        (isMine ? myCards : otherCards).Add(card);
     }
 }
