@@ -30,8 +30,9 @@ public class Auth : MonoBehaviour
             {
                 if(task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
 				{
-                    Debug.Log(emailField.text + "login complete");
-				}
+                    Firebase.Auth.FirebaseUser user = task.Result;
+                    Debug.Log(user.Email+" login complete");
+                }
 				else
 				{
                     Debug.Log("login fail");
