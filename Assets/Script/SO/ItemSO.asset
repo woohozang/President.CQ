@@ -118,6 +118,6 @@ MonoBehaviour:
   - name: CK
     sprite: {fileID: 21300000, guid: 5acbb3e8743ac4dcdab1a0ef9de4b8cd, type: 3}
   - name: Joker_color
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 3676a8c19c35d41f7ad8a265a6e24f3c, type: 3}
   - name: Joker_black
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: c5249e0da9a6f400d8876ef21c7e76e5, type: 3}

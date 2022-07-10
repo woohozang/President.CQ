@@ -11,6 +11,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] GameObject cardPrefab;
     [SerializeField] List<Prac_Card> myCards;
     [SerializeField] List<Prac_Card> otherCards;
+
  
     List<Item> itemBuffer;
 
@@ -54,5 +55,17 @@ public class CardManager : MonoBehaviour
         var card = cardObject.GetComponent<Prac_Card>();
         card.Setup(PopItem(), isMine);
         (isMine ? myCards : otherCards).Add(card);
+
+        SetOriginOrder(isMine);
+    }
+
+    void SetOriginOrder(bool isMine)
+    {
+        int count = isMine ? myCards.Count : otherCards.Count;
+        for (int i=0; i<count; i++)
+        {
+            var targetCard = isMine ? myCards[i] : otherCards[i];
+            targetCard?.GetComponent<Prac_Order>().SetOriginOrder(i);
+        }
     }
 }
