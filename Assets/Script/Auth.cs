@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using UnityEngine.UI;
 
 public class Auth : MonoBehaviour
 {
-    [SerializeField] string email;
-    [SerializeField] string password;
     [SerializeField] InputField emailField;
     [SerializeField] InputField passwordField;
+    [SerializeField] string UserID;
 
-    public Button login_button;
+    [SerializeField] string email;
+    [SerializeField] string password;
+    [SerializeField] string nickname = null;
+    [SerializeField] string ratingscore = null;
+    public Button login_button = null;
     public Button register_button;
 
-    FirebaseAuth auth;
+    FirebaseAuth auth; // firebase auth
+    DatabaseReference reference; // firebase database
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -47,7 +52,12 @@ public class Auth : MonoBehaviour
             {
                 if(!task.IsFaulted && !task.IsCanceled)
 				{
+                    email = emailField.text;
+                    password = passwordField.text;
+
+                    FirebaseUser newUser = task.Result;
                     Debug.Log("register complete");
+                    CreateUserWithJson(new JoinDB(email, password, nickname, ratingscore), newUser.UserId);
 				}                    
                 else
 				{
@@ -56,10 +66,32 @@ public class Auth : MonoBehaviour
             });
     }
     
+    void CreateUserWithJson(JoinDB userInfo, string uid)
+    {
+        string data = JsonUtility.ToJson(userInfo);
+        reference.Child("users").Child(uid).SetRawJsonValueAsync(data).ContinueWith(
+            task =>
+            {
+                if(task.IsFaulted)
+                {
+                    Debug.Log("database setting isfaulted");
+                }
+                if(task.IsCanceled)
+                {
+                    Debug.Log("database setting iscanceled");
+                }
+                if (task.IsCompleted)
+                {
+                    Debug.Log("database setting iscompleted");
+                }
+            }); //database에 쓰기
+       
+    }
 
 	void Start()
     {
         FirebaseApp.DefaultInstance.Options.DatabaseUrl = new System.Uri("https://presidentcq-4854b-default-rtdb.firebaseio.com/");
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
 
         login_button.onClick.AddListener(() =>
         {
@@ -74,6 +106,23 @@ public class Auth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    public class JoinDB
+    {//이메일, 비번, rating score, 이름
+        public string email;
+        public string password;
+        public string nickname;
+        public string ratingscore;
+
+        public JoinDB(string email, string password,  string nickname, string ratingscore)
+        {
+            this.email = email;
+            this.password = password;
+            this.nickname = nickname;
+            this.ratingscore = ratingscore;
+        }
         
     }
 }
