@@ -14,12 +14,14 @@ public class CardManager : MonoBehaviour
 
  
     List<Item> itemBuffer;
+    int itemCount = 0;
 
     public Item PopItem(){
-        if (itemBuffer.Count == 0)
+        if (itemBuffer.Count == 0 && itemCount==0)
             SetupItemBuffer();
         Item item = itemBuffer[0];
         itemBuffer.RemoveAt(0);
+        itemCount = +1;
         return item;
     }
 
@@ -41,6 +43,17 @@ public class CardManager : MonoBehaviour
     void Start()
     {
         SetupItemBuffer();
+        for (int i=0; i<=54; i++)
+        {
+            if(i>=0 && i<=13) {
+                AddCard(true);
+            }
+            else if(i>= 14 && i <= 54)
+            {
+                AddCard(false);
+            }
+        }
+
     }
 
     void Update(){
