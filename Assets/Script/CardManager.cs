@@ -14,14 +14,10 @@ public class CardManager : MonoBehaviour
 
  
     List<Item> itemBuffer;
-    int itemCount = 0;
 
     public Item PopItem(){
-        if (itemBuffer.Count == 0 && itemCount==0)
-            SetupItemBuffer();
         Item item = itemBuffer[0];
         itemBuffer.RemoveAt(0);
-        itemCount = +1;
         return item;
     }
 
@@ -56,12 +52,12 @@ public class CardManager : MonoBehaviour
 
     }
 
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.Keypad1))
-            AddCard(true);
-        if(Input.GetKeyDown(KeyCode.Keypad2))
-            AddCard(false);
-    }
+//    void Update(){
+//        if(Input.GetKeyDown(KeyCode.Keypad1))
+//            AddCard(true);
+//        if(Input.GetKeyDown(KeyCode.Keypad2))
+//            AddCard(false);
+//    }
 
     void AddCard(bool isMine){
         var cardObject = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity);
