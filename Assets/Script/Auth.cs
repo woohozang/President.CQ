@@ -10,13 +10,15 @@ public class Auth : MonoBehaviour
 {
     [SerializeField] InputField emailField;
     [SerializeField] InputField passwordField;
-    [SerializeField] string UserID;
+    
+    [SerializeField] string UserID; // key
 
     [SerializeField] string email;
     [SerializeField] string password;
     [SerializeField] string nickname = null;
     [SerializeField] string ratingscore = null;
-    public Button login_button = null;
+
+    public Button login_button;
     public Button register_button;
 
     FirebaseAuth auth; // firebase auth
