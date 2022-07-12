@@ -21,8 +21,6 @@ public class Auth : MonoBehaviour
     public Button login_button;
     public Button register_button;
 
-    public Text monitoringText;
-
     FirebaseAuth auth; // firebase auth
     DatabaseReference reference; // firebase database
 	// Start is called before the first frame update
@@ -32,29 +30,25 @@ public class Auth : MonoBehaviour
 
     }
 
-    public void login()
+    public void Login()
 	{
-        monitoringText.text = "로그인 중 : 잠시만 기다려 주세요.. ";
         auth.SignInWithEmailAndPasswordAsync(emailField.text, passwordField.text).ContinueWith(
             task =>
             {
                 if(task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
 				{
                     FirebaseUser user = task.Result;
-                    monitoringText.text = "로그인 성공 : 환영합니다! "+user.UserId;
                     Debug.Log(user.Email+" login complete");
                 }
 				else
 				{
-                    monitoringText.text = "로그인 실패 : 아이디와 비밀번호를 확인해 주세요!";
                     Debug.Log("login fail");
 				}
             });
 	}
     
-    public void register()
+    public void Join()
 	{
-        monitoringText.text = "회원가입 중 : 잠시만 기다려 주세요.. ";
         auth.CreateUserWithEmailAndPasswordAsync(emailField.text, passwordField.text).ContinueWith(
             task =>
             {
@@ -64,14 +58,12 @@ public class Auth : MonoBehaviour
                     password = passwordField.text;
 
                     FirebaseUser newUser = task.Result;
-                    monitoringText.text = "회원가입 완료 : 로그인 해주세요!";
-                    Debug.Log("register complete");
+                    Debug.Log("join complete");
                     CreateUserWithJson(new JoinDB(email, password, nickname, ratingscore), newUser.UserId);
 				}                    
                 else
 				{
-                    monitoringText.text = "회원가입 실패 : 아이디와 비밀번호를 정확하게 입력해 주세요!";
-                    Debug.Log("register fail");
+                    Debug.Log("join fail");
 				}
             });
     }
@@ -84,18 +76,17 @@ public class Auth : MonoBehaviour
             {
                 if(task.IsFaulted)
                 {
-                    Debug.Log("database setting isfaulted");
+                    Debug.Log("database setting is faulted");
                 }
                 if(task.IsCanceled)
                 {
-                    Debug.Log("database setting iscanceled");
+                    Debug.Log("database setting is canceled");
                 }
                 if (task.IsCompleted)
                 {
-
-                    Debug.Log("database setting iscompleted");
+                    Debug.Log("database setting is completed");
                 }
-            }); //database�� ����
+            }); 
        
     }
 
@@ -106,16 +97,16 @@ public class Auth : MonoBehaviour
 
         login_button.onClick.AddListener(() =>
         {
-            login();
+            Login();
         });
         register_button.onClick.AddListener(() =>
         {
-            register();
+            Join();
         });
     }
 
     public class JoinDB
-    {//�̸���, ���, rating score, �̸�
+    {
         public string email;
         public string password;
         public string nickname;
