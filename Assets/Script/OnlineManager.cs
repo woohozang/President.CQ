@@ -14,8 +14,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
         PhotonNetwork.GameVersion = gameVersion;
+        db = GameObject.Find("UserInfo").GetComponent<DatabaseManager>();
 
         if (!PhotonNetwork.IsConnected)
         {

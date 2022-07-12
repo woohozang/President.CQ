@@ -1,10 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
+  <string name="firebase_database_url" translatable="false">https://presidentcq-4854b-default-rtdb.firebaseio.com</string>
   <string name="gcm_defaultSenderId" translatable="false">773981733950</string>
   <string name="google_storage_bucket" translatable="false">presidentcq-4854b.appspot.com</string>
   <string name="project_id" translatable="false">presidentcq-4854b</string>
   <string name="google_api_key" translatable="false">AIzaSyBLGcT3KBf69WAhlg8MinrRtj1_N9gmeAo</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBLGcT3KBf69WAhlg8MinrRtj1_N9gmeAo</string>
   <string name="google_app_id" translatable="false">1:773981733950:android:6dc5203d428a727ba83d6f</string>
+  <string name="default_android_client_id" translatable="false">773981733950-erriargmvopjm8ct3up64g3c5ca6iud8.apps.googleusercontent.com</string>
   <string name="default_web_client_id" translatable="false">773981733950-fjscl2587n09km8315iaueerscgteep2.apps.googleusercontent.com</string>
 </resources>

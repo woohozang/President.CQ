@@ -1,6 +1,7 @@
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +9,13 @@ using UnityEngine;
 public class DatabaseManager : MonoBehaviour
 {
     DatabaseReference reference;
-    FirebaseAuth auth;
 
     [SerializeField]
     private string uid;
     [SerializeField]
     private string nickName;
     [SerializeField]
-    private string rating;
+    private int rating;
 
     public string getUid() {
         return uid;
@@ -24,14 +24,13 @@ public class DatabaseManager : MonoBehaviour
     {
         return nickName;
     }
-    public string getRating()
+    public int getRating()
     {
         return rating;
     }
 
     void Start()
     {
-        auth = FirebaseAuth.DefaultInstance;
         DontDestroyOnLoad(this);
         FirebaseApp.DefaultInstance.Options.DatabaseUrl =
                    new System.Uri("https://presidentcq-4854b-default-rtdb.firebaseio.com/");
@@ -44,6 +43,24 @@ public class DatabaseManager : MonoBehaviour
     {
         
     }
+    public void SetFirebaseReference(string uid) {
+        this.uid = uid;
+        reference = reference.Child("users").Child(uid);
+        GetUserInformationFromFirebase();
+    }
+    public void GetUserInformationFromFirebase() {
+        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot dataSnapshot = task.Result;
+                nickName = dataSnapshot.Child("nickName").GetValue(true).ToString();
+                rating = int.Parse(dataSnapshot.Child("rating").GetValue(true).ToString());
+            }
+        }
+        );
+    }
+    
     public void SetValueFireBase(string key, string value)
     {
 
