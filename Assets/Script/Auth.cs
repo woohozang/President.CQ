@@ -11,7 +11,7 @@ public class Auth : MonoBehaviour
     [SerializeField] InputField emailField;
     [SerializeField] InputField passwordField;
     
-    [SerializeField] string UserID; // key
+    [SerializeField] string userId; // key
 
     [SerializeField] string email;
     [SerializeField] string password;
@@ -20,6 +20,8 @@ public class Auth : MonoBehaviour
 
     public Button login_button;
     public Button register_button;
+
+    public Text monitoringText;
 
     FirebaseAuth auth; // firebase auth
     DatabaseReference reference; // firebase database
@@ -32,16 +34,19 @@ public class Auth : MonoBehaviour
 
     public void login()
 	{
+        monitoringText.text = "로그인 중 : 잠시만 기다려 주세요.. ";
         auth.SignInWithEmailAndPasswordAsync(emailField.text, passwordField.text).ContinueWith(
             task =>
             {
                 if(task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
 				{
-                    Firebase.Auth.FirebaseUser user = task.Result;
+                    FirebaseUser user = task.Result;
+                    monitoringText.text = "로그인 성공 : 환영합니다! "+user.UserId;
                     Debug.Log(user.Email+" login complete");
                 }
 				else
 				{
+                    monitoringText.text = "로그인 실패 : 아이디와 비밀번호를 확인해 주세요!";
                     Debug.Log("login fail");
 				}
             });
@@ -49,6 +54,7 @@ public class Auth : MonoBehaviour
     
     public void register()
 	{
+        monitoringText.text = "회원가입 중 : 잠시만 기다려 주세요.. ";
         auth.CreateUserWithEmailAndPasswordAsync(emailField.text, passwordField.text).ContinueWith(
             task =>
             {
@@ -58,11 +64,13 @@ public class Auth : MonoBehaviour
                     password = passwordField.text;
 
                     FirebaseUser newUser = task.Result;
+                    monitoringText.text = "회원가입 완료 : 로그인 해주세요!";
                     Debug.Log("register complete");
                     CreateUserWithJson(new JoinDB(email, password, nickname, ratingscore), newUser.UserId);
 				}                    
                 else
 				{
+                    monitoringText.text = "회원가입 실패 : 아이디와 비밀번호를 정확하게 입력해 주세요!";
                     Debug.Log("register fail");
 				}
             });
@@ -84,9 +92,10 @@ public class Auth : MonoBehaviour
                 }
                 if (task.IsCompleted)
                 {
+
                     Debug.Log("database setting iscompleted");
                 }
-            }); //database�� ����
+            }); //database�� ����
        
     }
 
@@ -105,14 +114,8 @@ public class Auth : MonoBehaviour
         });
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public class JoinDB
-    {//�̸���, ���, rating score, �̸�
+    {//�̸���, ���, rating score, �̸�
         public string email;
         public string password;
         public string nickname;
