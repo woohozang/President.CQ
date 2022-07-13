@@ -19,10 +19,13 @@ public class Auth : MonoBehaviour
     [SerializeField] string userId; // key
 
     public Button loginBtn;
+    public Button joinBtn;
     public Button join_joinBtn;
+    public Button join_XBtn;
     public DatabaseManager dbm;
     public Text monitoringText;
     public Text join_monitoringText;
+    public GameObject joinPanel;
 
     FirebaseAuth auth; // firebase auth
     DatabaseReference reference; // firebase database
@@ -110,23 +113,23 @@ public class Auth : MonoBehaviour
     {
         if (loginFlag)
         {
-            monitoringText.text = "·Î±×ÀÎ ¼º°ø : È¯¿µÇÕ´Ï´Ù!";
+            monitoringText.text = "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : È¯ï¿½ï¿½ï¿½Õ´Ï´ï¿½!";
             SceneManager.LoadScene("Lobby_Scene");
         }
         else
         {
-            monitoringText.text = "·Î±×ÀÎ ½ÇÆÐ : ÀÌ¸ÞÀÏ°ú ºñ¹Ð¹øÈ£¸¦ È®ÀÎÇØ ÁÖ¼¼¿ä";
+            monitoringText.text = "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½Ì¸ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½";
         }
     }
     public void JoinNext()
     {
         if (joinFlag)
         {
-            join_monitoringText.text = "È¸¿ø°¡ÀÔ ¼º°ø : Ã¢À» ´Ý°í ·Î±×ÀÎ ÇØÁÖ¼¼¿ä";
+            join_monitoringText.text = "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : Ã¢ï¿½ï¿½ ï¿½Ý°ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½";
         }
         else
         {
-            join_monitoringText.text = "È¸¿ø°¡ÀÔ ½ÇÆÐ : ¿ä±¸»çÇ×À» Á¤È®È÷ ÀÔ·ÂÇØ ÁÖ¼¼¿ä";
+            join_monitoringText.text = "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ä±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½";
         }
     }
 
@@ -139,9 +142,16 @@ public class Auth : MonoBehaviour
         {
             Login();
         });
+        joinBtn.onClick.AddListener(() => {
+            StartCoroutine(Bigger());
+        });
         join_joinBtn.onClick.AddListener(() =>
         {
             Join();
+        });
+        join_XBtn.onClick.AddListener(() =>
+        {
+            StartCoroutine(Smaller());
         });
     }
     private void FixedUpdate()
@@ -159,13 +169,42 @@ public class Auth : MonoBehaviour
         public string nickName;
         public string rating;
 
-        public JoinDB(string email, string password,  string nickName, string rating)
+        public JoinDB(string email, string password, string nickName, string rating)
         {
             this.email = email;
             this.password = password;
             this.nickName = nickName;
             this.rating = rating;
         }
-        
+
     }
+    IEnumerator Bigger()
+    {
+        joinPanel.SetActive(true);
+        RectTransform rect = joinPanel.GetComponent<RectTransform>();
+        float t = 0.0f;
+
+        while (t<=0.2f)
+        {
+            rect.localScale = new Vector3(5*t,5*t,5*t);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+    }
+    IEnumerator Smaller()
+    {
+        joinPanel.SetActive(true);
+        RectTransform rect = joinPanel.GetComponent<RectTransform>();
+        float t = 0.2f;
+
+        while (t >= 0.0f)
+        {
+            rect.localScale = new Vector3(5 * t, 5 * t, 5 * t);
+            t -= Time.deltaTime;
+            yield return null;
+        }
+
+    }
+
 }
