@@ -21,54 +21,40 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsConnected)
         {
+            onlineMonitoringText.text = "서버에 접속중..";
             PhotonNetwork.ConnectUsingSettings();
-            Debug.Log("First Login");
 
         }
-        else if (!PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.JoinLobby();
-            Debug.Log("Already Login");
+        else {
+            onlineMonitoringText.text = "연결됨 : 환영합니다! " + db.getNickName() + "님!";
+
         }
 
-        RandomBtn.onClick.AddListener(Connect);
+        RandomBtn.onClick.AddListener(()=> {
+            Connect();
+        });
 
-        onlineMonitoringText.text = "서버에 접속중..";
     }
-    private void Update()
-    {
-        if (PhotonNetwork.IsConnected)
-        {
-            //������ �ҷ�����
-        }
-        else
-        {
-            //db.GetUserInformationFromFireBase();
-            onlineMonitoringText.text = "서버 접속 실패 : 마스터서버에 재접속중...";
-
-        }
-    }
+   
 
     public override void OnConnectedToMaster()
     {
-        onlineMonitoringText.text = onlineMonitoringText.text = "연결됨 : 환영합니다! " + db.getNickName() + "님!";
-
-        PhotonNetwork.JoinLobby();//������ ���� ����� �κ�� ����
+        onlineMonitoringText.text = "연결됨 : 환영합니다! " + db.getNickName() + "님!";
+        RandomBtn.interactable = true;
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        // �� ���� ��ư�� ��Ȱ��ȭ
 
 
         onlineMonitoringText.text = "연결 유실 : 연결정보를 잃었습니다.\n 재접속중...";
-
-        //������ �������� ������ �õ�
+        RandomBtn.interactable = false;
         PhotonNetwork.ConnectUsingSettings();
     }
 
 
-    public override void OnJoinedLobby()//�κ� ����� �۵�
+    public override void OnJoinedLobby()
     {
         Debug.Log("Joined Lobby");
         //PhotonNetwork.NickName = "Player " + UnityEngine.Random.Range(0, 1000).ToString("0000");
@@ -77,18 +63,17 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
-
+        Debug.Log("Try Connect Room");
         if (PhotonNetwork.IsConnected)
         {
-            //�� ���� ����
             onlineMonitoringText.text = "연결됨 : 랜덤 룸에 접속중...";
             PhotonNetwork.JoinRandomRoom();
+
         }
         else
         {
-
-            //������ �������� ������ �õ�
             onlineMonitoringText.text = "연결 유실 : 연결정보를 잃었습니다.\n 재접속중...";
+            RandomBtn.interactable = false;
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -98,17 +83,15 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
         onlineMonitoringText.text = "연결됨 : 생성된 룸이 없음. 룸을 생성 중...";
         Debug.Log("Creating Room");
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 0 });
+        PhotonNetwork.CreateRoom(PhotonNetwork.NickName+"의 룸", new RoomOptions { MaxPlayers = 0 });
 
     }
 
     public override void OnJoinedRoom()
     {
-        //���� ���� ǥ��
         onlineMonitoringText.text = "연결됨 : 룸에 접속 중...";
         Debug.Log("Join Room");
-        PhotonNetwork.LoadLevel("Game_Scene");
-        //LoadingSceneController.Instance.LoadScene("Scene_Field");
+        PhotonNetwork.LoadLevel("Room_Scene");
 
     }
 }
