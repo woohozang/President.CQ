@@ -113,23 +113,23 @@ public class Auth : MonoBehaviour
     {
         if (loginFlag)
         {
-            monitoringText.text = "�α��� ���� : ȯ���մϴ�!";
+            monitoringText.text = "로그인 성공 : 환영합니다!";
             SceneManager.LoadScene("Lobby_Scene");
         }
         else
         {
-            monitoringText.text = "�α��� ���� : �̸��ϰ� ��й�ȣ�� Ȯ���� �ּ���";
+            monitoringText.text = " 로그인 실패 : 이메일과 비밀번호를 다시 확인해주세요.";
         }
     }
     public void JoinNext()
     {
         if (joinFlag)
         {
-            join_monitoringText.text = "ȸ������ ���� : â�� �ݰ� �α��� ���ּ���";
+            join_monitoringText.text = "회원가입 성공 : 창을 닫고 로그인을 시도해 주세요.";
         }
         else
         {
-            join_monitoringText.text = "ȸ������ ���� : �䱸������ ��Ȯ�� �Է��� �ּ���";
+            join_monitoringText.text = "회원가입 실패 : 이메일과 비밀번호를 정확히 입력해 주세요.";
         }
     }
 

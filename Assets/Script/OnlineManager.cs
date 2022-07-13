@@ -11,6 +11,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     private string gameVersion = "1";
     public DatabaseManager db;
 
+    public Button RandomBtn;
+
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -29,43 +31,44 @@ public class OnlineManager : MonoBehaviourPunCallbacks
             Debug.Log("Already Login");
         }
 
+        RandomBtn.onClick.AddListener(Connect);
 
-        onlineMonitoringText.text = "¼­¹ö¿¡ Á¢¼ÓÁß..";
+        onlineMonitoringText.text = "ì„œë²„ì— ì ‘ì†ì¤‘..";
     }
     private void Update()
     {
         if (PhotonNetwork.IsConnected)
         {
-            //·ëÁ¤º¸ ºÒ·¯¿À±â
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
             //db.GetUserInformationFromFireBase();
-            onlineMonitoringText.text = "¿Â¶óÀÎ : µ¥ÀÌÅÍº£ÀÌ½º¿Í Åë½Å Áß...";
+            onlineMonitoringText.text = "ì„œë²„ ì ‘ì† ì‹¤íŒ¨ : ë§ˆìŠ¤í„°ì„œë²„ì— ì¬ì ‘ì†ì¤‘...";
 
         }
     }
 
     public override void OnConnectedToMaster()
     {
-        onlineMonitoringText.text = onlineMonitoringText.text = "¿Â¶óÀÎ : È¯¿µÇÕ´Ï´Ù! " + db.getNickName() + "´Ô!";
+        onlineMonitoringText.text = onlineMonitoringText.text = "ì—°ê²°ë¨ : í™˜ì˜í•©ë‹ˆë‹¤! " + db.getNickName() + "ë‹˜!";
 
-        PhotonNetwork.JoinLobby();//¸¶½ºÅÍ ¼­¹ö ¿¬°á½Ã ·Îºñ·Î ¿¬°á
+        PhotonNetwork.JoinLobby();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        // ·ë Á¢¼Ó ¹öÆ°À» ºñÈ°¼ºÈ­
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
 
 
-        onlineMonitoringText.text = "¿ÀÇÁ¶óÀÎ : ¸¶½ºÅÍ ¼­¹ö¿Í ¿¬°áµÇÁö ¾ÊÀ½\n Á¢¼Ó Àç½Ãµµ Áß...";
+        onlineMonitoringText.text = "ì—°ê²° ìœ ì‹¤ : ì—°ê²°ì •ë³´ë¥¼ ìƒì—ˆìŠµë‹ˆë‹¤.\n ì¬ì ‘ì†ì¤‘...";
 
-        //¸¶½ºÅÍ ¼­¹ö·ÎÀÇ ÀçÁ¢¼Ó ½Ãµµ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
         PhotonNetwork.ConnectUsingSettings();
     }
 
 
-    public override void OnJoinedLobby()//·Îºñ¿¡ ¿¬°á½Ã ÀÛµ¿
+    public override void OnJoinedLobby()//ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ûµï¿½
     {
         Debug.Log("Joined Lobby");
         //PhotonNetwork.NickName = "Player " + UnityEngine.Random.Range(0, 1000).ToString("0000");
@@ -77,15 +80,15 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
-            //·ë Á¢¼Ó ½ÇÇà
-            onlineMonitoringText.text = "¿Â¶óÀÎ : Ã¤³Î¿¡ Á¢¼Ó Áß..";
+            //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            onlineMonitoringText.text = "ì—°ê²°ë¨ : ëœë¤ ë£¸ì— ì ‘ì†ì¤‘...";
             PhotonNetwork.JoinRandomRoom();
         }
         else
         {
 
-            //¸¶½ºÅÍ ¼­¹ö·ÎÀÇ ÀçÁ¢¼Ó ½Ãµµ
-            onlineMonitoringText.text = "¿ÀÇÁ¶óÀÎ : ¸¶½ºÅÍ ¼­¹ö¿Í ¿¬°áµÇÁö ¾ÊÀ½\n Á¢¼Ó Àç½ÃµµÁß...";
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
+            onlineMonitoringText.text = "ì—°ê²° ìœ ì‹¤ : ì—°ê²°ì •ë³´ë¥¼ ìƒì—ˆìŠµë‹ˆë‹¤.\n ì¬ì ‘ì†ì¤‘...";
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -93,7 +96,7 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
 
-        onlineMonitoringText.text = "¿Â¶óÀÎ : È°¼ºÈ­µÈ Ã¤³Î ¾øÀ½. »õ·Î¿î Ã¤³Î »ı¼º";
+        onlineMonitoringText.text = "ì—°ê²°ë¨ : ìƒì„±ëœ ë£¸ì´ ì—†ìŒ. ë£¸ì„ ìƒì„± ì¤‘...";
         Debug.Log("Creating Room");
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 0 });
 
@@ -101,10 +104,10 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        //Á¢¼Ó »óÅÂ Ç¥½Ã
-        onlineMonitoringText.text = "¿Â¶óÀÎ : Ã¤³Î »ı¼º ¼º°ø";
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
+        onlineMonitoringText.text = "ì—°ê²°ë¨ : ë£¸ì— ì ‘ì† ì¤‘...";
         Debug.Log("Join Room");
-        PhotonNetwork.LoadLevel("Scene_Field");
+        PhotonNetwork.LoadLevel("Game_Scene");
         //LoadingSceneController.Instance.LoadScene("Scene_Field");
 
     }
