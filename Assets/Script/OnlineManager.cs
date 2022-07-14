@@ -12,6 +12,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public DatabaseManager db;
 
     public Button RandomBtn;
+    public Button RefreshBtn;
+
     public GameObject roomPrefab;
     public GameObject Content;
     
@@ -66,6 +68,9 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
         RandomBtn.onClick.AddListener(()=> {
             Connect();
+        });
+        RefreshBtn.onClick.AddListener(() => {
+            RefreshRoomList();
         });
     }
 
