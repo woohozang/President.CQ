@@ -13,6 +13,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     public Button RandomBtn;
     public GameObject roomPrefab;
+    public GameObject Content;
+    
     private List<GameObject> roomPrefabs = new List<GameObject>();
     private List<RoomInfo> roomList = new List<RoomInfo>();
 
@@ -29,13 +31,17 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < PhotonNetwork.CountOfRooms; i++)
         {
-            GameObject groom = Instantiate(roomPrefab);
-            groom.transform.SetParent(roomPrefab.transform.parent);
+            GameObject groom = null;
+            groom.transform.parent = Content.transform;
+            groom = Instantiate(roomPrefab);
             groom.GetComponent<RectTransform>().localScale = roomPrefab.GetComponent<RectTransform>().localScale;
-            groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 200f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
-            groom.transform.Find("TextRoomName").GetComponent<Text>().text = roomList[i].Name;
-            groom.transform.Find("TextPlayerCount").GetComponent<Text>().text = roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
-            groom.transform.Find("joinButton").GetComponent<Button>().onClick.AddListener(() => { PhotonNetwork.JoinRoom(groom.transform.Find("TextRoomName").GetComponent<Text>().text); });
+            groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 100f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
+
+            string roomName = roomList[i].Name;
+            groom.transform.Find("RoomName").GetComponent<Text>().text = roomList[i].Name +"    "+ roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
+            groom.GetComponent<Button>().onClick.AddListener(() => {
+                PhotonNetwork.JoinRoom(roomName); 
+            });
             groom.SetActive(true);
             roomPrefabs.Add(groom);
         }

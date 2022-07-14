@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviourPunCallbacks
@@ -30,10 +31,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
         });
         exitBtn.onClick.AddListener(()=> {
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.LoadLevel("Lobby_Scene");
-
         });
 
+    }
+    public override void OnLeftRoom()
+    {
+        if (SceneManager.GetActiveScene().name == "Room_Scene") {
+            SceneManager.LoadScene("Lobby_Scene");
+            return;
+        }
     }
     void FixedUpdate()
     {
