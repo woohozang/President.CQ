@@ -12,6 +12,34 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public DatabaseManager db;
 
     public Button RandomBtn;
+    public GameObject roomPrefab;
+    private List<GameObject> roomPrefabs = new List<GameObject>();
+    private List<RoomInfo> roomList = new List<RoomInfo>();
+
+    public void RefreshRoomList()
+    {       // 대기방 보여주기
+        OnRoomListUpdate(roomList);
+        if (roomPrefabs.Count > 0)
+        {
+            for (int i = 0; i < roomPrefabs.Count; i++)
+            {
+                Destroy(roomPrefabs[i]);
+            }
+            roomPrefabs.Clear();
+        }
+        for (int i = 0; i < PhotonNetwork.CountOfRooms; i++)
+        {
+            GameObject groom = Instantiate(roomPrefab);
+            groom.transform.SetParent(roomPrefab.transform.parent);
+            groom.GetComponent<RectTransform>().localScale = roomPrefab.GetComponent<RectTransform>().localScale;
+            groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 200f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
+            groom.transform.Find("TextRoomName").GetComponent<Text>().text = roomList[i].Name;
+            groom.transform.Find("TextPlayerCount").GetComponent<Text>().text = roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
+            groom.transform.Find("joinButton").GetComponent<Button>().onClick.AddListener(() => { PhotonNetwork.JoinRoom(groom.transform.Find("TextRoomName").GetComponent<Text>().text); });
+            groom.SetActive(true);
+            roomPrefabs.Add(groom);
+        }
+    }
 
     private void Start()
     {
@@ -33,9 +61,9 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         RandomBtn.onClick.AddListener(()=> {
             Connect();
         });
-
     }
-   
+
+
 
     public override void OnConnectedToMaster()
     {
