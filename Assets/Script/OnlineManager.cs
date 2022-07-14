@@ -18,24 +18,23 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public GameObject Content;
     
     private List<GameObject> roomPrefabs = new List<GameObject>();
-    private List<RoomInfo> roomList = new List<RoomInfo>();
+//    private List<RoomInfo> roomList = new List<RoomInfo>();
 
-    public void RefreshRoomList()
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {       // 대기방 보여주기
-        OnRoomListUpdate(roomList);
-        if (roomPrefabs.Count > 0)
+/*        if (roomPrefabs.Count > 0)
         {
             for (int i = 0; i < roomPrefabs.Count; i++)
             {
                 Destroy(roomPrefabs[i]);
             }
             roomPrefabs.Clear();
-        }
-        for (int i = 0; i < PhotonNetwork.CountOfRooms; i++)
+        }*/
+        Debug.Log(PhotonNetwork.CountOfRooms+" "+roomList.Count);
+        for (int i = 0; i < roomList.Count; i++)
         {
-            GameObject groom = null;
+            GameObject groom = Instantiate(roomPrefab);
             groom.transform.parent = Content.transform;
-            groom = Instantiate(roomPrefab);
             groom.GetComponent<RectTransform>().localScale = roomPrefab.GetComponent<RectTransform>().localScale;
             groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 100f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
 
@@ -49,6 +48,18 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         }
     }
 
+/*    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (var item in roomList)
+        {
+            if (!item.IsVisible || !item.IsOpen || item.RemovedFromList)
+                continue;
+
+            Rooms.Add(item);
+        }
+
+
+    }*/
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
