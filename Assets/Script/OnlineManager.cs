@@ -40,7 +40,7 @@ public class OnlineManager : MonoBehaviourPunCallbacks
             groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 100f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
 
             string roomName = roomList[i].Name;
-            groom.transform.Find("RoomName").GetComponent<Text>().text = roomList[i].Name +"    "+ roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
+            groom.GetComponentInChildren<Text>().text = roomList[i].Name +"    "+ roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
             groom.GetComponent<Button>().onClick.AddListener(() => {
                 PhotonNetwork.JoinRoom(roomName); 
             });
