@@ -22,37 +22,57 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> updatedRoomList)
     {
-        roomList.Clear();
-
-        for (int i = 0; i < roomPrefabs.Count; i++) {
-            Destroy(roomPrefabs[i]);
-        }
-
-        roomPrefabs.Clear();
-        Debug.Log(PhotonNetwork.CountOfRooms+" "+roomList.Count);
-        foreach (var item in updatedRoomList)
+        for (int i= 0; i < updatedRoomList.Count; i++)
         {
-            if (!item.IsVisible || !item.IsOpen || item.RemovedFromList)
+            if (roomList.Contains(updatedRoomList[i])) //변동사항이 변경일때
             {
-                GameObject groom = Instantiate(roomPrefab);
-                groom.transform.parent = Content.transform;
-                groom.GetComponent<RectTransform>().localScale = roomPrefab.GetComponent<RectTransform>().localScale;
-                groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 100f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
-
-                string roomName = item.Name;
-                groom.GetComponentInChildren<Text>().text = item.Name + "    " + item.PlayerCount + "/" + item.MaxPlayers;
-                groom.GetComponent<Button>().onClick.AddListener(() =>
+                if (updatedRoomList[i].RemovedFromList) //변경내용이 삭제일 때
                 {
-                    PhotonNetwork.JoinRoom(roomName);
-                });
-                groom.SetActive(true);
-                roomPrefabs.Add(groom);
-                roomList.Add(item);
-            }
-            else {
+                    Debug.Log(updatedRoomList[i].Name + " 삭제");
+
+                    //int index = roomList.FindIndex(item => item.Name == updatedRoomList[i].Name);
+                    roomList.Remove(updatedRoomList[i]);
+
+                }
+                else //변경내용이 삭제가 아닐때(룸 접속인원 수 변동)
+                {
+                    Debug.Log(updatedRoomList[i].Name + " 추가");
+
+                    int index = roomList.FindIndex(item => item.Name == updatedRoomList[i].Name);
+                    roomList[index] = updatedRoomList[i];
+                }
                 
             }
+            else //변동사항이 추가일때
+            {
+                Debug.Log(updatedRoomList[i].Name+" 추가");
+                roomList.Add(updatedRoomList[i]);
+            }
         }
+        DisplayRooms();
+    }
+    public void DisplayRooms() {
+        for (int i = 0; i < roomPrefabs.Count; i++)
+        {
+            Destroy(roomPrefabs[i]);
+        }
+        roomPrefabs.Clear();
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            GameObject groom = Instantiate(roomPrefab);
+            groom.transform.parent = Content.transform;
+            groom.GetComponent<RectTransform>().localScale = roomPrefab.GetComponent<RectTransform>().localScale;
+            groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 100f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
+            string roomName = roomList[i].Name;
+            groom.GetComponentInChildren<Text>().text = roomList[i].Name + "    " + roomList[i].PlayerCount + "/" + roomList[i].MaxPlayers;
+            groom.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                //Debug.Log(" joinRoom to" + roomList[i].Name);
+                PhotonNetwork.JoinRoom(roomName);
+            });
+        }
+
     }
 
     private void Start()
@@ -138,5 +158,11 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         Debug.Log("Join Room");
         PhotonNetwork.LoadLevel("Room_Scene");
 
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+        Debug.Log("JoinRoom Error : "+returnCode+", "+message);
     }
 }
