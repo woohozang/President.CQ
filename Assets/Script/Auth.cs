@@ -129,7 +129,7 @@ public class Auth : MonoBehaviour
         }
         else
         {
-            join_monitoringText.text = "회원가입 실패 : 이메일과 비밀번호를 정확히 입력해 주세요.";
+            join_monitoringText.text = "회원가입 실패 : 이메일과 비밀번호를 정확히 입력해 주세요.";
         }
     }
 
@@ -143,7 +143,7 @@ public class Auth : MonoBehaviour
             Login();
         });
         joinBtn.onClick.AddListener(() => {
-            StartCoroutine(Bigger());
+            StartCoroutine(UIAnimation.Bigger(joinPanel));
         });
         join_joinBtn.onClick.AddListener(() =>
         {
@@ -151,7 +151,7 @@ public class Auth : MonoBehaviour
         });
         join_XBtn.onClick.AddListener(() =>
         {
-            StartCoroutine(Smaller());
+            StartCoroutine(UIAnimation.Smaller(joinPanel));
         });
     }
     private void FixedUpdate()
@@ -178,33 +178,4 @@ public class Auth : MonoBehaviour
         }
 
     }
-    IEnumerator Bigger()
-    {
-        joinPanel.SetActive(true);
-        RectTransform rect = joinPanel.GetComponent<RectTransform>();
-        float t = 0.0f;
-
-        while (t<=0.2f)
-        {
-            rect.localScale = new Vector3(5*t,5*t,5*t);
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-    }
-    IEnumerator Smaller()
-    {
-        joinPanel.SetActive(true);
-        RectTransform rect = joinPanel.GetComponent<RectTransform>();
-        float t = 0.2f;
-
-        while (t >= 0.0f)
-        {
-            rect.localScale = new Vector3(5 * t, 5 * t, 5 * t);
-            t -= Time.deltaTime;
-            yield return null;
-        }
-
-    }
-
 }

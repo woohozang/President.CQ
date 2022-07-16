@@ -16,17 +16,31 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     public GameObject roomPrefab;
     public GameObject Content;
+
+    public GameObject makeRoomPanel;
+    public InputField roomNameField;
+    public Button makeRoomBtn;
+    public Button upBtn;
+    public Button downBtn;
+    public Button makeBtn;
+    public Button XBtn;
+    public Text PlayerCountText;
+    private int PlayerCount = 4;
+
+    public GameObject errorPanel;
+    public Button errorXBtn;
     
     private List<GameObject> roomPrefabs = new List<GameObject>();
     private List<RoomInfo> roomList = new List<RoomInfo>();
 
     public override void OnRoomListUpdate(List<RoomInfo> updatedRoomList)
     {
+        Debug.Log("룸이 업데이트 됨 "+ updatedRoomList.Count);
         for (int i= 0; i < updatedRoomList.Count; i++)
         {
             if (roomList.Contains(updatedRoomList[i])) //변동사항이 변경일때
             {
-                if (updatedRoomList[i].RemovedFromList) //변경내용이 삭제일 때
+                if (updatedRoomList[i].RemovedFromList || updatedRoomList[i].PlayerCount == 0 || !updatedRoomList[i].IsVisible || !updatedRoomList[i].IsOpen) //변경내용이 삭제일 때
                 {
                     Debug.Log(updatedRoomList[i].Name + " 삭제");
 
@@ -36,7 +50,7 @@ public class OnlineManager : MonoBehaviourPunCallbacks
                 }
                 else //변경내용이 삭제가 아닐때(룸 접속인원 수 변동)
                 {
-                    Debug.Log(updatedRoomList[i].Name + " 추가");
+                    Debug.Log(updatedRoomList[i].Name + " 변경");
 
                     int index = roomList.FindIndex(item => item.Name == updatedRoomList[i].Name);
                     roomList[index] = updatedRoomList[i];
@@ -96,8 +110,37 @@ public class OnlineManager : MonoBehaviourPunCallbacks
             Connect();
         });
         RefreshBtn.onClick.AddListener(() => {
-            //RefreshRoomList();
+
         });
+        makeRoomBtn.onClick.AddListener(() => {
+            PlayerCount = 4;
+            PlayerCountText.text = PlayerCount.ToString();
+            StartCoroutine(UIAnimation.Bigger(makeRoomPanel));
+        });
+        upBtn.onClick.AddListener(()=> {
+            if (PlayerCount == 4) return;
+
+            PlayerCount++;
+            PlayerCountText.text = PlayerCount.ToString();
+        });
+        downBtn.onClick.AddListener(() => {
+            if (PlayerCount == 1) return;
+            PlayerCount--;
+            PlayerCountText.text = PlayerCount.ToString();
+        });
+        makeBtn.onClick.AddListener(()=> {
+            RoomOptions temp = new RoomOptions();
+            temp.MaxPlayers = ((byte)PlayerCount);
+            PhotonNetwork.CreateRoom(roomNameField.text, temp);
+        });
+        XBtn.onClick.AddListener(()=> {
+            StartCoroutine(UIAnimation.Smaller(makeRoomPanel));
+        });
+        errorXBtn.onClick.AddListener(()=> {
+            StartCoroutine(UIAnimation.Smaller(errorPanel));
+
+        });
+
     }
 
 
@@ -164,5 +207,7 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinRoomFailed(returnCode, message);
         Debug.Log("JoinRoom Error : "+returnCode+", "+message);
+        StartCoroutine(UIAnimation.Bigger(errorPanel));
+
     }
 }
