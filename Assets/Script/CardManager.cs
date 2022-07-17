@@ -8,11 +8,11 @@ public class CardManager : MonoBehaviour
     void Awake() => Inst = this;
 
     [SerializeField] ItemSO itemSO;
-    [SerializeField] GameObject cardPrefab;
-    [SerializeField] List<Prac_Card> myCards;
-    [SerializeField] List<Prac_Card> otherCards;
+    [SerializeField] List<Item> firstPlayer;
+    [SerializeField] List<Item> secondPlayer;
+    [SerializeField] List<Item> thirdPlayer;
+    [SerializeField] List<Item> forthPlayer;
 
- 
     List<Item> itemBuffer;
 
     public Item PopItem(){
@@ -39,42 +39,39 @@ public class CardManager : MonoBehaviour
     void Start()
     {
         SetupItemBuffer();
-        for (int i=0; i<=54; i++)
-        {
-            if(i>=0 && i<=13) {
-                AddCard(true);
-            }
-            else if(i>= 14 && i <= 54)
-            {
-                AddCard(false);
-            }
+        for (int i = 1; i <= 4; i++)
+		{
+            for(int j=0; j<=12; j++)
+			{
+                AddCard(i);
+			}
+		}
+        List<int> list = new List<int>() { 1, 2, 3, 4 };
+        for(int i=0; i<=1; i++)
+		{
+            int randNum = Random.Range(0, list.Count);
+            AddCard(list[randNum]);
+            list.RemoveAt(randNum);
         }
-
     }
 
-//    void Update(){
-//        if(Input.GetKeyDown(KeyCode.Keypad1))
-//            AddCard(true);
-//        if(Input.GetKeyDown(KeyCode.Keypad2))
-//            AddCard(false);
-//    }
-
-    void AddCard(bool isMine){
-        var cardObject = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity);
-        var card = cardObject.GetComponent<Prac_Card>();
-        card.Setup(PopItem(), isMine);
-        (isMine ? myCards : otherCards).Add(card);
-
-        SetOriginOrder(isMine);
-    }
-
-    void SetOriginOrder(bool isMine)
-    {
-        int count = isMine ? myCards.Count : otherCards.Count;
-        for (int i=0; i<count; i++)
+    void AddCard(int playerID){
+        Item item = PopItem();
+		if (playerID == 1)
+		{
+            firstPlayer.Add(item);
+		}
+        else if (playerID == 2)
         {
-            var targetCard = isMine ? myCards[i] : otherCards[i];
-            targetCard?.GetComponent<Prac_Order>().SetOriginOrder(i);
+            secondPlayer.Add(item);
+        }
+        else if (playerID == 3)
+        {
+            thirdPlayer.Add(item);
+        }
+        else if (playerID == 4)
+        {
+            forthPlayer.Add(item);
         }
     }
 }
