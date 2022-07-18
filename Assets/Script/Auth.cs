@@ -6,7 +6,6 @@ using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
 public class Auth : MonoBehaviour
 {
     [SerializeField] InputField emailField;
@@ -40,7 +39,6 @@ public class Auth : MonoBehaviour
     private void Awake()
 	{
         auth = FirebaseAuth.DefaultInstance;
-
     }
 
     public void Login()
@@ -75,6 +73,7 @@ public class Auth : MonoBehaviour
                     FirebaseUser newUser = task.Result;
                     Debug.Log("join complete");
                     CreateUserWithJson(new JoinDB(join_emailField.text, join_pwdField.text, join_nickNameField.text, "1000"), newUser.UserId);
+                    CreateNickNameWithJson(new NickNameDB(join_nickNameField.text));
                     joinFlag = true;
                     queue.Enqueue("JoinNext");
 
@@ -108,6 +107,30 @@ public class Auth : MonoBehaviour
                 }
             }); 
        
+    }
+    void CreateNickNameWithJson(NickNameDB nickName)
+    {
+        string data = JsonUtility.ToJson(nickName);
+        reference.Child("nickName").SetRawJsonValueAsync(data).ContinueWith(
+            task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.Log("ndatabase setting is faulted");
+                }
+                if (task.IsCanceled)
+                {
+                    Debug.Log("ndatabase setting is canceled");
+                }
+                if (task.IsCompleted)
+                {
+                    Debug.Log("ndatabase setting is completed");
+                }
+            });
+    }
+    public void nicknameDuplicateCheck(string uid)
+    {
+        //reference.Child("users").Child(uid).Child("nickName").
     }
     public void LoginNext()
     {
@@ -177,5 +200,13 @@ public class Auth : MonoBehaviour
             this.rating = rating;
         }
 
+    }
+    public class NickNameDB
+    {
+        public string nickName;
+        public NickNameDB(string nickName)
+        {
+            this.nickName = nickName;
+        }
     }
 }

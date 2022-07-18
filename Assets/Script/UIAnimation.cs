@@ -11,9 +11,9 @@ public class UIAnimation : MonoBehaviour
         RectTransform rect = panel.GetComponent<RectTransform>();
         float t = 0.0f;
 
-        while (t <= 0.2f)
+        while (t <= 0.1f)
         {
-            rect.localScale = new Vector3(5 * t, 5 * t, 5 * t);
+            rect.localScale = new Vector3(10 * t, 10 * t, 10 * t);
             t += Time.deltaTime;
             yield return null;
         }
@@ -22,11 +22,11 @@ public class UIAnimation : MonoBehaviour
     public static IEnumerator Smaller(GameObject panel)
     {
         RectTransform rect = panel.GetComponent<RectTransform>();
-        float t = 0.2f;
+        float t = 0.1f;
 
         while (t >= 0.0f)
         {
-            rect.localScale = new Vector3(5 * t, 5 * t, 5 * t);
+            rect.localScale = new Vector3(10 * t, 10 * t, 10 * t);
             t -= Time.deltaTime;
             yield return null;
         }
