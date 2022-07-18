@@ -38,30 +38,28 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         Debug.Log("룸이 업데이트 됨 "+ updatedRoomList.Count);
         for (int i= 0; i < updatedRoomList.Count; i++)
         {
-            if (roomList.Contains(updatedRoomList[i])) //변동사항이 변경일때
+
+            if (updatedRoomList[i].RemovedFromList || updatedRoomList[i].PlayerCount == 0 || !updatedRoomList[i].IsVisible || !updatedRoomList[i].IsOpen) //변경내용이 삭제일 때
             {
-                if (updatedRoomList[i].RemovedFromList || updatedRoomList[i].PlayerCount == 0 || !updatedRoomList[i].IsVisible || !updatedRoomList[i].IsOpen) //변경내용이 삭제일 때
-                {
-                    Debug.Log(updatedRoomList[i].Name + " 삭제");
+                Debug.Log(updatedRoomList[i].Name + " 삭제");
 
                     //int index = roomList.FindIndex(item => item.Name == updatedRoomList[i].Name);
-                    roomList.Remove(updatedRoomList[i]);
-
-                }
-                else //변경내용이 삭제가 아닐때(룸 접속인원 수 변동)
-                {
-                    Debug.Log(updatedRoomList[i].Name + " 변경");
-
-                    int index = roomList.FindIndex(item => item.Name == updatedRoomList[i].Name);
-                    roomList[index] = updatedRoomList[i];
-                }
-                
+                roomList.Remove(updatedRoomList[i]);
             }
-            else //변동사항이 추가일때
+            else if (roomList.Contains(updatedRoomList[i])) //변동사항이 변경일때
             {
-                Debug.Log(updatedRoomList[i].Name+" 추가");
+                Debug.Log(updatedRoomList[i].Name + " 변경");
+
+                int index = roomList.FindIndex(item => item.Name == updatedRoomList[i].Name);
+                    roomList[index] = updatedRoomList[i];
+            }
+            else //변경내용이 추가 일때
+            {
+                Debug.Log(updatedRoomList[i].Name + " 추가");
                 roomList.Add(updatedRoomList[i]);
             }
+                
+
         }
         DisplayRooms();
     }
@@ -75,7 +73,7 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < roomList.Count; i++)
         {
             GameObject groom = Instantiate(roomPrefab);
-            groom.transform.parent = Content.transform;
+            groom.transform.SetParent(Content.transform);
             groom.GetComponent<RectTransform>().localScale = roomPrefab.GetComponent<RectTransform>().localScale;
             groom.GetComponent<RectTransform>().localPosition = new Vector3(roomPrefab.GetComponent<RectTransform>().localPosition.x, roomPrefab.GetComponent<RectTransform>().localPosition.y - (i * 100f), roomPrefab.GetComponent<RectTransform>().localPosition.z);
             string roomName = roomList[i].Name;
@@ -142,8 +140,6 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         });
 
     }
-
-
 
     public override void OnConnectedToMaster()
     {
