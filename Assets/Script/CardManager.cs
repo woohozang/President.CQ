@@ -11,7 +11,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] List<Item> firstPlayer;
     [SerializeField] List<Item> secondPlayer;
     [SerializeField] List<Item> thirdPlayer;
-    [SerializeField] List<Item> forthPlayer;
+    [SerializeField] List<Item> fourthPlayer;
 
     List<Item> itemBuffer;
 
@@ -71,7 +71,7 @@ public class CardManager : MonoBehaviour
         }
         else if (playerID == 4)
         {
-            forthPlayer.Add(item);
+            fourthPlayer.Add(item);
         }
     }
 }
