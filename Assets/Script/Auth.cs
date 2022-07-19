@@ -73,7 +73,6 @@ public class Auth : MonoBehaviour
                     FirebaseUser newUser = task.Result;
                     Debug.Log("join complete");
                     CreateUserWithJson(new JoinDB(join_emailField.text, join_pwdField.text, join_nickNameField.text, "1000"), newUser.UserId);
-                    CreateNickNameWithJson(new NickNameDB(join_nickNameField.text));
                     joinFlag = true;
                     queue.Enqueue("JoinNext");
 
@@ -108,30 +107,33 @@ public class Auth : MonoBehaviour
             }); 
        
     }
-    void CreateNickNameWithJson(NickNameDB nickName)
+    
+    public void NickNameDuplicateCheck()
     {
-        string data = JsonUtility.ToJson(nickName);
-        reference.Child("nickName").SetRawJsonValueAsync(data).ContinueWith(
-            task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.Log("ndatabase setting is faulted");
-                }
-                if (task.IsCanceled)
-                {
-                    Debug.Log("ndatabase setting is canceled");
-                }
-                if (task.IsCompleted)
-                {
-                    Debug.Log("ndatabase setting is completed");
-                }
-            });
+        Query nickNameQuery =  reference.Child("users").OrderByChild("nickName").EqualTo(join_nickNameField.text);
+        nickNameQuery.ValueChanged += nickName_ValueChanged;
+       
     }
-    public void nicknameDuplicateCheck(string uid)
+
+
+    void nickName_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        //reference.Child("users").Child(uid).Child("nickName").
+        DataSnapshot dataSnapshot = e.Snapshot;
+
+        if (dataSnapshot.ChildrenCount == 0)
+        {
+            Join();
+        }
+        else
+        {
+            join_monitoringText.text = "이미 존재하는 닉네임 입니다.";
+            Debug.Log("이미 존재함");
+            return;
+        }
+           
     }
+
+
     public void LoginNext()
     {
         if (loginFlag)
@@ -170,7 +172,7 @@ public class Auth : MonoBehaviour
         });
         join_joinBtn.onClick.AddListener(() =>
         {
-            Join();
+            NickNameDuplicateCheck();
         });
         join_XBtn.onClick.AddListener(() =>
         {
@@ -200,13 +202,5 @@ public class Auth : MonoBehaviour
             this.rating = rating;
         }
 
-    }
-    public class NickNameDB
-    {
-        public string nickName;
-        public NickNameDB(string nickName)
-        {
-            this.nickName = nickName;
-        }
     }
 }
