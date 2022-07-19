@@ -111,12 +111,12 @@ public class Auth : MonoBehaviour
     public void NickNameDuplicateCheck()
     {
         Query nickNameQuery =  reference.Child("users").OrderByChild("nickName").EqualTo(join_nickNameField.text);
-        nickNameQuery.ValueChanged += nickName_ValueChanged;
+        nickNameQuery.ValueChanged += NickName_ValueChanged;
        
     }
 
 
-    void nickName_ValueChanged(object sender, ValueChangedEventArgs e)
+    void NickName_ValueChanged(object sender, ValueChangedEventArgs e)
     {
         DataSnapshot dataSnapshot = e.Snapshot;
 
@@ -127,7 +127,6 @@ public class Auth : MonoBehaviour
         else
         {
             join_monitoringText.text = "이미 존재하는 닉네임 입니다.";
-            Debug.Log("이미 존재함");
             return;
         }
            
