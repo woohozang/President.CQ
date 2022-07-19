@@ -30,6 +30,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             pv.RPC("GameStart", RpcTarget.All);
         });
         exitBtn.onClick.AddListener(()=> {
+            pv.RPC("RemoveAttender", RpcTarget.All, PhotonNetwork.NickName);
             PhotonNetwork.LeaveRoom();
         });
 
@@ -58,6 +59,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void AddAttender(string nickName) {
         attenderList.Add(nickName);
+    }
+
+    [PunRPC]
+    void RemoveAttender(string nickName) {
+        attenderList.Remove(nickName);
     }
 
     [PunRPC]
