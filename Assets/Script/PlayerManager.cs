@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UserManager : MonoBehaviour
 {
+    [SerializeField] List<Item> MyCards;
     // Start is called before the first frame update
     void Start()
     {
