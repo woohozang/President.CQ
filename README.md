@@ -1,6 +1,6 @@
 # President.CQ
 Presented by Team CodingQuokka  
-Made by 황윤규 박성재 전희연 심우호 임수빈
+Made by 황윤규 박성재 전희연 심우호 임수빈  
 using Unity3D 2021, Photon Network, Firebase, Google Ads  
 개발중인 프로젝트  
   
