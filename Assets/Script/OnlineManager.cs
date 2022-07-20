@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Firebase.Auth;
+using UnityEngine.SceneManagement;
 public class OnlineManager : MonoBehaviourPunCallbacks
 {
     public Text onlineMonitoringText;
@@ -32,6 +33,19 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     
     private List<GameObject> roomPrefabs = new List<GameObject>();
     private List<RoomInfo> roomList = new List<RoomInfo>();
+
+    FirebaseAuth auth;
+    public Button logoutBtn;
+
+    void Awake()
+    {
+        auth = FirebaseAuth.DefaultInstance;
+    }
+    public void Logout()
+    {
+        auth.SignOut();
+        SceneManager.LoadScene("Login_Scene");
+    }
 
     public override void OnRoomListUpdate(List<RoomInfo> updatedRoomList)
     {
@@ -137,6 +151,10 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         errorXBtn.onClick.AddListener(()=> {
             StartCoroutine(UIAnimation.Smaller(errorPanel));
 
+        });
+        logoutBtn.onClick.AddListener(() =>
+        {
+            Logout();
         });
 
     }

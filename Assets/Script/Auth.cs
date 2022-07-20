@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
+
 using Firebase.Database;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -26,10 +27,12 @@ public class Auth : MonoBehaviour
     public Text join_monitoringText;
     public GameObject joinPanel;
 
+    public Toggle toggle;
+
     FirebaseAuth auth; // firebase auth
     DatabaseReference reference; // firebase database
 
-
+    FirebaseUser user;
 
     bool loginFlag = false;
     bool joinFlag = false;
@@ -39,6 +42,7 @@ public class Auth : MonoBehaviour
     private void Awake()
 	{
         auth = FirebaseAuth.DefaultInstance;
+        user = auth.CurrentUser;
     }
 
     public void Login()
@@ -48,7 +52,7 @@ public class Auth : MonoBehaviour
             {
                 if(task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
 				{
-                    FirebaseUser user = task.Result;
+                    user = task.Result;
                     dbm.SetFirebaseReference(user.UserId);
                     Debug.Log(user.Email + " login complete");
                     loginFlag = true;
@@ -61,7 +65,28 @@ public class Auth : MonoBehaviour
                 }
             });
 	}
-    
+    public void ToggleCheck()
+    {
+        if (toggle.isOn)
+        {
+            AutoLogin();
+        }
+        else return;
+    }
+    public void AutoLogin()
+    {
+        Debug.Log("toggle is on");
+        user = auth.CurrentUser;
+        if (user != null)
+        {
+            dbm.SetFirebaseReference(user.UserId);
+            Debug.Log(user.Email + " login complete");
+            loginFlag = true;
+            queue.Enqueue("LoginNext");
+        }
+
+    }
+
     public void Join()
 	{
         auth.CreateUserWithEmailAndPasswordAsync(join_emailField.text, join_pwdField.text).ContinueWith(
@@ -156,7 +181,7 @@ public class Auth : MonoBehaviour
             join_monitoringText.text = "회원가입 실패 : 이메일과 비밀번호를 정확히 입력해 주세요.";
         }
     }
-
+    
     void Start()
     {
         FirebaseApp.DefaultInstance.Options.DatabaseUrl = new System.Uri("https://presidentcq-4854b-default-rtdb.firebaseio.com/");
@@ -177,7 +202,22 @@ public class Auth : MonoBehaviour
         {
             StartCoroutine(UIAnimation.Smaller(joinPanel));
         });
+
+        toggle.onValueChanged.AddListener((bool isOn) =>
+        {
+            if (isOn)
+            {
+                Debug.Log("auto on");
+                ToggleCheck();
+            }
+            else
+            {
+                Debug.Log("auto x");
+            }
+        });
+        ToggleCheck();
     }
+    
     private void FixedUpdate()
     {
         if (queue.Count > 0)
