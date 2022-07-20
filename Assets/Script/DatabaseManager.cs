@@ -28,14 +28,17 @@ public class DatabaseManager : MonoBehaviour
     {
         return rating;
     }
-
-    void Start()
+    void Awake()
     {
-        DontDestroyOnLoad(this);
         FirebaseApp.DefaultInstance.Options.DatabaseUrl =
                    new System.Uri("https://presidentcq-4854b-default-rtdb.firebaseio.com/");
 
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+    void Start()
+    {
+        DontDestroyOnLoad(this);
+        
     }
 
     // Update is called once per frame
@@ -51,6 +54,14 @@ public class DatabaseManager : MonoBehaviour
     public void GetUserInformationFromFirebase() {
         reference.GetValueAsync().ContinueWithOnMainThread(task =>
         {
+            if (task.IsCanceled)
+            {
+                Debug.Log("cancel");
+            }
+            if (task.IsFaulted)
+            {
+                Debug.Log("fault");
+            }
             if (task.IsCompleted)
             {
                 DataSnapshot dataSnapshot = task.Result;
