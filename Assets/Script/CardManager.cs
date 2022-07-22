@@ -53,6 +53,8 @@ public class CardManager : MonoBehaviour
             AddCard(list[randNum]);
             list.RemoveAt(randNum);
         }
+
+
     }
 
     void AddCard(int playerID){

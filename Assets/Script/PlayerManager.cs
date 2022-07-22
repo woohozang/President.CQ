@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class UserManager : MonoBehaviour
+public abstract class PlayerManager : MonoBehaviour
 {
     [SerializeField] List<Item> cards;
     public PhotonView PV;
     public DatabaseManager db;
+    public string name;
     // Start is called before the first frame update
     void Start()
     {
         db = GameObject.Find("UserInfo").GetComponent<DatabaseManager>();
-        
+        name = db.name;
    
     }
 
@@ -27,4 +28,6 @@ public class UserManager : MonoBehaviour
     {
         cards = _cards;
     }
+    public abstract void Reset();
+
 }
