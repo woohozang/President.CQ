@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    List<string> attenderList = new List<string>();
+
+    public List<string> attenderList = new List<string>();
 
 
     public Text attenderListText;
