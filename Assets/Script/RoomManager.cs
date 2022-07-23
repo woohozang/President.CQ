@@ -22,18 +22,20 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        RoomNameText.text = PhotonNetwork.CurrentRoom.Name;
-        pv.RPC("AddAttender", RpcTarget.AllBuffered, PhotonNetwork.NickName);
+        if (SceneManager.GetActiveScene().name == "Room_Scene")
+        {
+            RoomNameText.text = PhotonNetwork.CurrentRoom.Name;
+            pv.RPC("AddAttender", RpcTarget.AllBuffered, PhotonNetwork.NickName);
 
 
-        startBtn.onClick.AddListener(()=> {
-            pv.RPC("GameStart", RpcTarget.All);
-        });
-        exitBtn.onClick.AddListener(()=> {
-            pv.RPC("RemoveAttender", RpcTarget.All, PhotonNetwork.NickName);
-            PhotonNetwork.LeaveRoom();
-        });
-
+            startBtn.onClick.AddListener(() => {
+                pv.RPC("GameStart", RpcTarget.All);
+            });
+            exitBtn.onClick.AddListener(() => {
+                pv.RPC("RemoveAttender", RpcTarget.All, PhotonNetwork.NickName);
+                PhotonNetwork.LeaveRoom();
+            });
+        }
     }
     public override void OnLeftRoom()
     {
@@ -44,15 +46,22 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     void FixedUpdate()
     {
-        string temp="";
-        foreach (string s in attenderList) {
-            temp += s + "\n";
-        }
-        attenderListText.text = temp;
-
-        if (PhotonNetwork.IsMasterClient)
+        if (SceneManager.GetActiveScene().name == "Room_Scene")
         {
-            startBtn.interactable = true;
+            string temp = "";
+            foreach (string s in attenderList)
+            {
+                temp += s + "\n";
+            }
+            attenderListText.text = temp;
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                startBtn.interactable = true;
+            }
+        }
+        else if (SceneManager.GetActiveScene().name == "Game_Scene") { 
+            
         }
     }
 

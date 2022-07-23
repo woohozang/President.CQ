@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public List<string> attenderList;
     [SerializeField]
     public List<User> userList;
+    List<string> attenderList;
 
 
     private void init()

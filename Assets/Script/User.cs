@@ -7,7 +7,7 @@ public abstract class User : MonoBehaviour
 
     public abstract string Name { get; set; }
 
-    public abstract void Submit();
+    public abstract void Submit(string cardcode);
     public abstract void Pass();
 
     public abstract void SetName();

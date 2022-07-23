@@ -17,8 +17,9 @@ public class Me : User
         nameText.text = Name;
     }
 
-    public override void Submit()
+    public override void Submit(string cardcode)
     {
+        Debug.Log(cardcode+" ¡¶√‚«‘");
     }
 
 
