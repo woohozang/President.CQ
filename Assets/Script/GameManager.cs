@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     {
         int i = 1;
         foreach(string s in attenderList) {
-            if ("È²À±°Ö¶ó"== s)
+            if ("È²À±°Ö¶ó"== s) //PhotonNetwork.NicknameÀ¸·Î ¹Ù²ã¾ßÇÔ ÀÌ°Ç Å×½ºÆ®¿ë
             {
                 userList[0].Name = s;
                 userList[0].SetName();

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -28,19 +26,20 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     {
         rect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-        /*if (isInDeck)
+        if (isInDeck)
         {
             user.Submit(CardCode);
             Destroy(this.gameObject);
         }
-        else {
+        else
+        {
             rect.position = wasPosition;
-        }*/
+        }
 
     }
 
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.gameObject.name);
 
@@ -50,14 +49,12 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             Debug.Log("¼­ºê¹Ô¸Þ´ÏÀú ´êÀ½");
         }
     }
-
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.name == "SubmitManager")
         {
             isInDeck = false;
             Debug.Log("¼­ºê¹Ô¸Þ´ÏÀú ¶³¾îÁü");
-
         }
     }
     private void Start()
