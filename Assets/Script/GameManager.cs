@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     {
         int i = 1;
         foreach(string s in attenderList) {
-            if ("È²À±°Ö¶ó"== s) //PhotonNetwork.NicknameÀ¸·Î ¹Ù²ã¾ßÇÔ ÀÌ°Ç Å×½ºÆ®¿ë
+            if ("í™©ìœ¤ê²”ë¼" == s) //when start test on PhotonNetwork, it must change PhotonNetwork.Nickname 
             {
                 userList[0].Name = s;
                 userList[0].SetName();
