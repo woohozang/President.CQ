@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public string CardCode = "HK";
+    public string CardCode = "H13";
     public RectTransform rect;
     private Vector3 wasPosition;
     private bool isInDeck;
@@ -14,6 +15,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     {
         wasPosition = rect.position;
         rect.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+
 
     }
 
@@ -46,7 +48,6 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (collision.gameObject.name == "SubmitManager")
         {
             isInDeck = true;
-            Debug.Log("¼­ºê¹Ô¸Þ´ÏÀú ´êÀ½");
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -54,11 +55,12 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (collision.gameObject.name == "SubmitManager")
         {
             isInDeck = false;
-            Debug.Log("¼­ºê¹Ô¸Þ´ÏÀú ¶³¾îÁü");
         }
     }
     private void Start()
     {
         user = GameObject.Find("Me").GetComponent<User>();
+        gameObject.GetComponent<CardVO>().setCardImg(CardCode);
+
     }
 }

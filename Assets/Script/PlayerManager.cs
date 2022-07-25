@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public abstract class PlayerManager : MonoBehaviour
 {
-    [SerializeField] List<Item> cards;
+    [SerializeField] List<string> cards;
     public PhotonView PV;
     public DatabaseManager db;
     public string name;
@@ -23,11 +23,5 @@ public abstract class PlayerManager : MonoBehaviour
         
     }
 
-
-    void SetCards(List<Item> _cards)
-    {
-        cards = _cards;
-    }
-    public abstract void Reset();
 
 }
