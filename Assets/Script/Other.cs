@@ -21,6 +21,7 @@ public class Other :  User
 
     public override void Submit(string cardcode)
     {
+
     }
 
 

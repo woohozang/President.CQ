@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public List<User> userList;
     List<string> attenderList;
 
+    List<string> CardDeck = new List<string>();
+
+
 
     private void init()
     {
@@ -33,6 +36,76 @@ public class GameManager : MonoBehaviour
     {
         attenderList = GameObject.Find("RoomManager").GetComponent<RoomManager>().attenderList;
         init();
+    }
+
+    public void initCardDeck() {
+        CardDeck.Clear();
+        CardDeck.Add("D01");
+        CardDeck.Add("D02");
+        CardDeck.Add("D03");
+        CardDeck.Add("D04");
+        CardDeck.Add("D05");
+        CardDeck.Add("D06");
+        CardDeck.Add("D07");
+        CardDeck.Add("D08");
+        CardDeck.Add("D09");
+        CardDeck.Add("D10");
+        CardDeck.Add("D11");
+        CardDeck.Add("D12");
+        CardDeck.Add("D13");
+
+        CardDeck.Add("H01");
+        CardDeck.Add("H02");
+        CardDeck.Add("H03");
+        CardDeck.Add("H04");
+        CardDeck.Add("H05");
+        CardDeck.Add("H06");
+        CardDeck.Add("H07");
+        CardDeck.Add("H08");
+        CardDeck.Add("H09");
+        CardDeck.Add("H10");
+        CardDeck.Add("H11");
+        CardDeck.Add("H12");
+        CardDeck.Add("H13");
+
+        CardDeck.Add("C01");
+        CardDeck.Add("C02");
+        CardDeck.Add("C03");
+        CardDeck.Add("C04");
+        CardDeck.Add("C05");
+        CardDeck.Add("C06");
+        CardDeck.Add("C07");
+        CardDeck.Add("C08");
+        CardDeck.Add("C09");
+        CardDeck.Add("C10");
+        CardDeck.Add("C11");
+        CardDeck.Add("C12");
+        CardDeck.Add("C13");
+
+        CardDeck.Add("S01");
+        CardDeck.Add("S02");
+        CardDeck.Add("S03");
+        CardDeck.Add("S04");
+        CardDeck.Add("S05");
+        CardDeck.Add("S06");
+        CardDeck.Add("S07");
+        CardDeck.Add("S08");
+        CardDeck.Add("S09");
+        CardDeck.Add("S10");
+        CardDeck.Add("S11");
+        CardDeck.Add("S12");
+        CardDeck.Add("S13");
+
+        CardDeck.Add("JOC");
+        CardDeck.Add("JOG");
+    }
+    [PunRPC]
+    public void giveCard(string userName, string cardcode) {
+        for (int i=0; i<userList.Count; i++) {
+            if (userList[i].name == userName) {
+                userList[i].userCard.Add(cardcode);                
+            }
+        }
     }
 
     // Update is called once per frame
