@@ -14,7 +14,7 @@ public class Auth : MonoBehaviour
     [SerializeField] InputField join_emailField;
     [SerializeField] InputField join_pwdField;
     [SerializeField] InputField join_nickNameField;
-
+    [SerializeField] InputField forget_emailField;
 
     [SerializeField] string userId; // key
 
@@ -22,13 +22,21 @@ public class Auth : MonoBehaviour
     public Button joinBtn;
     public Button join_joinBtn;
     public Button join_XBtn;
+    public Text join_monitoringText;
+
+    public Button forgetBtn;
+    public Button forget_sendBtn;
+    public Button forget_XBtn;
+    public Text forget_monitoringText;
+
     public DatabaseManager dbm;
     public Text monitoringText;
-    public Text join_monitoringText;
+
     public GameObject joinPanel;
-
+    public GameObject forgetPanel;
+    public GameData gameData;
     public Toggle toggle;
-
+    
     FirebaseAuth auth; // firebase auth
     DatabaseReference reference; // firebase database
 
@@ -93,24 +101,40 @@ public class Auth : MonoBehaviour
             task =>
             {
                 if(!task.IsFaulted && !task.IsCanceled)
-				{
-
+                {
                     FirebaseUser newUser = task.Result;
                     Debug.Log("join complete");
                     CreateUserWithJson(new JoinDB(join_emailField.text, join_pwdField.text, join_nickNameField.text, "1000"), newUser.UserId);
                     joinFlag = true;
                     queue.Enqueue("JoinNext");
-
                 }
                 else
-				{
+                {
                     Debug.Log("join fail");
                     queue.Enqueue("JoinNext");
-
                 }
             });
     }
     
+    public void ResetPassword()
+    {
+        auth.SendPasswordResetEmailAsync(forget_emailField.text).ContinueWith(
+            task =>
+            {
+                if(task.IsCanceled)
+                {
+                    Debug.Log("forget cancle");
+                }
+                if(task.IsFaulted)
+                {
+                    Debug.Log("forget fault" + task.Exception);
+                }
+                Debug.Log("check your email");
+                forget_monitoringText.text = "이메일 확인ㄱㄱ";
+                
+            });
+            
+    }
     void CreateUserWithJson(JoinDB userInfo, string uid)
     {
         string data = JsonUtility.ToJson(userInfo);
@@ -178,7 +202,7 @@ public class Auth : MonoBehaviour
         }
         else
         {
-            join_monitoringText.text = "회원가입 실패 : 이메일과 비밀번호를 정확히 입력해 주세요.";
+            join_monitoringText.text = "회원가입 실패 : 이메일과 비밀번호를 형식에 맞게 정확히 입력해 주세요.";
         }
     }
     
@@ -201,6 +225,18 @@ public class Auth : MonoBehaviour
         join_XBtn.onClick.AddListener(() =>
         {
             StartCoroutine(UIAnimation.Smaller(joinPanel));
+        });
+        forgetBtn.onClick.AddListener(() =>
+        {
+            StartCoroutine(UIAnimation.Bigger(forgetPanel));
+        });
+        forget_XBtn.onClick.AddListener(() =>
+        {
+            StartCoroutine(UIAnimation.Smaller(forgetPanel));
+        });
+        forget_sendBtn.onClick.AddListener(() =>
+        {
+            ResetPassword();
         });
 
         toggle.onValueChanged.AddListener((bool isOn) =>
