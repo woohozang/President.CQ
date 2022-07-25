@@ -9,14 +9,27 @@ public class UISetting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(DataController.Instance.gameData.AutoLogin ==0)
+
+        if(DataController.Instance.gameData.AutoLogin ==false)
 		{
             toggle.isOn = false;
+               
 		}
-        else if(DataController.Instance.gameData.AutoLogin == 1)
+        else if(DataController.Instance.gameData.AutoLogin == true)
 		{
             toggle.isOn = true;
 		}
+        toggle.onValueChanged.AddListener((bool isOn) =>
+        {
+           if (isOn)
+           {
+               DataController.Instance.gameData.AutoLogin = true;
+           }
+           else
+           {
+               DataController.Instance.gameData.AutoLogin = false;
+           }
+        });
         
     }
 

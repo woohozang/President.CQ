@@ -6,5 +6,5 @@ using System;
 [Serializable]
 public class GameData 
 {
-	public int AutoLogin = 0;
+	public bool AutoLogin = false;
 }

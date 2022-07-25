@@ -43,19 +43,19 @@ public class DataController : MonoBehaviour
 			return _gameData;
 		}
 	}
-	private void Start()
-	{
+
+    private void Start()
+    {
 		LoadGameData();
 		SaveGameData();
-	}
-
-	public void LoadGameData()
+    }
+    public void LoadGameData()
 	{
 		string filePath = Application.persistentDataPath + GameDataFileName;
 
 		if(File.Exists(filePath))
 		{
-			Debug.Log("game data load");
+			Debug.Log("data load complete");
 			string FromJsonData = File.ReadAllText(filePath);
 			_gameData = JsonUtility.FromJson<GameData>(FromJsonData);
 		}
@@ -71,7 +71,7 @@ public class DataController : MonoBehaviour
 		string ToJsonData = JsonUtility.ToJson(gameData);
 		string filepath = Application.persistentDataPath + GameDataFileName;
 		File.WriteAllText(filepath, ToJsonData);
-		Debug.Log("game data save");
+		Debug.Log("data save");
 	}
 
 	private void OnApplicationQuit()
