@@ -9,7 +9,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private Vector3 wasPosition;
     private bool isInDeck;
     public User user;
-
+    public GameManager gameManager;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -31,6 +31,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (isInDeck)
         {
             user.Submit(CardCode);
+            gameManager.Submitted(CardCode);
             Destroy(this.rect.parent.gameObject);
         }
         else
@@ -60,7 +61,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private void Start()
     {
         user = GameObject.Find("Me").GetComponent<User>();
-
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     public void setCardImg() {
         gameObject.GetComponent<CardVO>().setCardImg(CardCode);

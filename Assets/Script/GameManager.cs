@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     List<string> CardDeck = new List<string>();
 
-    public List<string> submitedCard = new List<string>();
+    public List<string> submittedCard = new List<string>();
 
 
     private void init()
@@ -107,6 +107,12 @@ public class GameManager : MonoBehaviour
 
         CardDeck.Add("JB");
         CardDeck.Add("JC");
+    }
+    public void Submitted(string cardcode)
+    {
+        Debug.Log(cardcode + "제출됨");
+        submittedCard.Add(cardcode);
+
     }
     [PunRPC]
     public void giveCard(string userName, string cardcode) {
