@@ -19,6 +19,11 @@ public class Other :  User
 
     }
 
+    public override void SpreadCard()
+    {
+        Debug.Log("This is not object which is current user owned");
+    }
+
     public override void Submit(string cardcode)
     {
 

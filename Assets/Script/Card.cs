@@ -60,6 +60,9 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private void Start()
     {
         user = GameObject.Find("Me").GetComponent<User>();
+
+    }
+    public void setCardImg() {
         gameObject.GetComponent<CardVO>().setCardImg(CardCode);
 
     }

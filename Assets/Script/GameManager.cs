@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     List<string> CardDeck = new List<string>();
 
+    public List<string> submitedCard = new List<string>();
 
 
     private void init()
@@ -36,6 +37,14 @@ public class GameManager : MonoBehaviour
     {
         attenderList = GameObject.Find("RoomManager").GetComponent<RoomManager>().attenderList;
         init();
+        initCardDeck();
+        giveCardToUser();
+        foreach (User u in userList)
+        {
+            u.printCardList();
+        }
+        userList[0].SpreadCard();
+
     }
 
     public void initCardDeck() {
@@ -107,6 +116,34 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    void giveCardToUser() {
+        for (int i = 0; i<14; i++) { 
+            int r = Random.Range(0, CardDeck.Count);
+            giveCard(userList[0].name, CardDeck[r]);
+            CardDeck.RemoveAt(r);
+        }
+        for (int i = 0; i < 14; i++)
+        {
+            int r = Random.Range(0, CardDeck.Count);
+            giveCard(userList[1].name, CardDeck[r]);
+            CardDeck.RemoveAt(r);
+        }
+        for (int i = 0; i < 13; i++)
+        {
+            int r = Random.Range(0, CardDeck.Count);
+            giveCard(userList[2].name, CardDeck[r]);
+            CardDeck.RemoveAt(r);
+        }
+        for (int i = 0; i < 13; i++)
+        {
+            int r = Random.Range(0, CardDeck.Count);
+            giveCard(userList[3].name, CardDeck[r]);
+            CardDeck.RemoveAt(r);
+        }
+
+    }
+
+    
 
     // Update is called once per frame
     void Update()
