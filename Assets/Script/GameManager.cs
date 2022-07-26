@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    [PunRPC]
     void giveCardToUser() {
         for (int i = 0; i<14; i++) { 
             int r = Random.Range(0, CardDeck.Count);
