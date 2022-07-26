@@ -105,8 +105,8 @@ public class GameManager : MonoBehaviour
         CardDeck.Add("S12");
         CardDeck.Add("S13");
 
-        CardDeck.Add("JOC");
-        CardDeck.Add("JOG");
+        CardDeck.Add("JB");
+        CardDeck.Add("JC");
     }
     [PunRPC]
     public void giveCard(string userName, string cardcode) {

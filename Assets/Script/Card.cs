@@ -31,7 +31,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (isInDeck)
         {
             user.Submit(CardCode);
-            Destroy(this.gameObject);
+            Destroy(this.rect.parent.gameObject);
         }
         else
         {

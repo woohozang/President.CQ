@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Me : User
 {
     public Text nameText;
+    public GameObject myDeck;
 
     public GameObject card;
     public override string Name { get; set; }
@@ -23,11 +24,14 @@ public class Me : User
     {
         int i = 0;
         foreach (string s in userCard) {
-            GameObject temp = Instantiate(card, new Vector3(-620 + (i*50),-400,0), Quaternion.identity);
-            temp.GetComponent<Card>().name = s;
-            temp.GetComponent<Card>().CardCode = s;
-            temp.GetComponent<Card>().setCardImg();
 
+            GameObject temp = Instantiate(card, new Vector3(600 + (i*95),200,0), Quaternion.identity);
+
+            temp.GetComponent<RectTransform>().SetParent(myDeck.GetComponent<RectTransform>());
+            temp.GetComponentInChildren<Card>().name = s;
+            temp.GetComponentInChildren<Card>().CardCode = s;
+            temp.GetComponentInChildren<Card>().setCardImg();
+            i++;
         }
     }
 
