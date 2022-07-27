@@ -116,15 +116,18 @@ public class GameManager : MonoBehaviour
         submittedCard.Add(cardcode);
 
     }
-    /*public void ArrangeCard()
+    public void ArrangeCard(RectTransform rect)
     {
-        GameObject temp = Instantiate(card, new Vector3(1000, 720, 0), Quaternion.identity);
+        rect.parent.gameObject.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
+        rect.GetComponentInChildren<Card>().setCardImg();
+        for (int i=0; i<submittedCard.Count; i++)
+		{
+            rect.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(1050 + (i * 30), 720, 0), Quaternion.identity);
+        }
+        
 
-        temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
-        temp.GetComponentInChildren<Card>().setCardImg();
 
-
-    }*/
+    }
     [PunRPC]
     public void giveCard(string userName, string cardcode) {
         for (int i=0; i<userList.Count; i++) {

@@ -31,9 +31,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         {
             user.Submit(CardCode);
             gameManager.Submitted(CardCode);
-            //gameManager.ArrangeCard();
-            rect.parent.gameObject.GetComponent<RectTransform>().SetParent(gameManager.deck.GetComponent<RectTransform>());
-            rect.GetComponentInChildren<Card>().setCardImg();
+            gameManager.ArrangeCard(rect);
         }
         else
         {
