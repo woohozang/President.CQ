@@ -28,7 +28,7 @@ public class Me : User
             GameObject temp = Instantiate(card, new Vector3(600 + (i*95),200,0), Quaternion.identity);
 
             temp.GetComponent<RectTransform>().SetParent(myDeck.GetComponent<RectTransform>());
-            temp.GetComponentInChildren<Card>().name = s;
+            temp.name = s;
             temp.GetComponentInChildren<Card>().CardCode = s;
             temp.GetComponentInChildren<Card>().setCardImg();
             i++;
