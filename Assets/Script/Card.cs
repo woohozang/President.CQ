@@ -10,7 +10,6 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private bool isInDeck;
     public User user;
     public GameManager gameManager;
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         wasPosition = rect.position;
@@ -32,7 +31,9 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         {
             user.Submit(CardCode);
             gameManager.Submitted(CardCode);
-            Destroy(this.rect.parent.gameObject);
+            //gameManager.ArrangeCard();
+            rect.parent.gameObject.GetComponent<RectTransform>().SetParent(gameManager.deck.GetComponent<RectTransform>());
+            rect.GetComponentInChildren<Card>().setCardImg();
         }
         else
         {
@@ -44,7 +45,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
 
         if (collision.gameObject.name == "SubmitManager")
         {

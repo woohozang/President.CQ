@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public List<string> submittedCard = new List<string>();
 
+    public GameObject deck;
+    public GameObject card;
 
     private void init()
     {
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour
             u.printCardList();
         }
         userList[0].SpreadCard();
-
+        
     }
 
     public void initCardDeck() {
@@ -114,6 +116,15 @@ public class GameManager : MonoBehaviour
         submittedCard.Add(cardcode);
 
     }
+    /*public void ArrangeCard()
+    {
+        GameObject temp = Instantiate(card, new Vector3(1000, 720, 0), Quaternion.identity);
+
+        temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
+        temp.GetComponentInChildren<Card>().setCardImg();
+
+
+    }*/
     [PunRPC]
     public void giveCard(string userName, string cardcode) {
         for (int i=0; i<userList.Count; i++) {
