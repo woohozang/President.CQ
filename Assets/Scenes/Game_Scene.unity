@@ -3183,6 +3183,7 @@ MonoBehaviour:
   myDeck: {fileID: 2014792742}
   deck: {fileID: 1950569199}
   card: {fileID: 3850010391593021500, guid: 16bd8ae04e325411db5f538f69478b52, type: 3}
+  deckPoint: {fileID: 1950569200}
   start_button: {fileID: 1261214743}
   end_button: {fileID: 381680831}
 --- !u!4 &2128010563

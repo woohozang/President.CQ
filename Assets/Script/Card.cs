@@ -13,25 +13,25 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     public void OnBeginDrag(PointerEventData eventData)
     {
         wasPosition = rect.position;
-        rect.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+        rect.parent.localScale = new Vector3(1.3f, 1.3f, 1.3f);
 
 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rect.position = eventData.position;
+        rect.parent.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        rect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        rect.parent.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
         if (isInDeck)
         {
             user.Submit(CardCode);
 
-            //ÆÄ±«
+            //ï¿½Ä±ï¿½
             Destroy(rect.parent.gameObject);
             gameManager.Submitted(CardCode);
 

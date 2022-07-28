@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public GameObject deck;
     public GameObject card;
 
+    public RectTransform deckPoint;
+
     public Button start_button;
     public Button end_button;
 
@@ -132,11 +134,11 @@ public class GameManager : MonoBehaviour
     }
     public void ArrangeCard()
     {
-        GameObject temp = Instantiate(card, new Vector3(1050, 720, 0), Quaternion.identity); //재생성
+        GameObject temp = Instantiate(card, deckPoint.position, Quaternion.identity); //재생성
 
         for (int i=0; i<submittedCard.Count; i++)
 		{
-            temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(1050 + (i * 30), 720, 0), Quaternion.identity);
+            temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(deckPoint.position.x + (i * 30), deckPoint.position.y, 0), Quaternion.identity);
             temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
             temp.name = submittedCard[i];
             temp.GetComponentInChildren<Card>().CardCode = submittedCard[i];
