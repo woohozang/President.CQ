@@ -2775,7 +2775,7 @@ MonoBehaviour:
   - {fileID: 2032440258}
   submittedCard: []
   deck: {fileID: 1950569199}
-  card: {fileID: 80280848068272022, guid: a43db947dc8164af48be0965167909b6, type: 3}
+  card: {fileID: 3850010391593021500, guid: 16bd8ae04e325411db5f538f69478b52, type: 3}
 --- !u!4 &2128010563
 Transform:
   m_ObjectHideFlags: 0

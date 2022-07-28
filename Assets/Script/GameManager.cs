@@ -114,18 +114,21 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(cardcode + "제출됨");
         submittedCard.Add(cardcode);
+        ArrangeCard();
 
     }
-    public void ArrangeCard(RectTransform rect)
+    public void ArrangeCard()
     {
-        rect.parent.gameObject.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
-        rect.GetComponentInChildren<Card>().setCardImg();
+        GameObject temp = Instantiate(card, new Vector3(1050, 720, 0), Quaternion.identity); //재생성
+
         for (int i=0; i<submittedCard.Count; i++)
 		{
-            rect.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(1050 + (i * 30), 720, 0), Quaternion.identity);
+            temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(1050 + (i * 30), 720, 0), Quaternion.identity);
+            temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
+            temp.name = submittedCard[i];
+            temp.GetComponentInChildren<Card>().CardCode = submittedCard[i];
+            temp.GetComponentInChildren<Card>().setCardImg();
         }
-        
-
 
     }
     [PunRPC]
