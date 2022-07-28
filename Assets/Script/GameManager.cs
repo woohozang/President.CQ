@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,8 +14,13 @@ public class GameManager : MonoBehaviour
 
     public List<string> submittedCard = new List<string>();
 
+    public GameObject myDeck;
     public GameObject deck;
     public GameObject card;
+
+    public User user;
+    public Button start_button;
+    public Button end_button;
 
     private void init()
     {
@@ -46,7 +52,13 @@ public class GameManager : MonoBehaviour
             u.printCardList();
         }
         userList[0].SpreadCard();
-        
+
+        user = GameObject.Find("Me").GetComponent<User>();
+
+        end_button.onClick.AddListener(() =>
+        {
+            RoundEnd();
+        });
     }
 
     public void initCardDeck() {
@@ -129,7 +141,35 @@ public class GameManager : MonoBehaviour
             temp.GetComponentInChildren<Card>().CardCode = submittedCard[i];
             temp.GetComponentInChildren<Card>().setCardImg();
         }
+    }
+    public void RoundEnd()
+	{ 
+        submittedCard.Clear();// 제출된 카드 리스트 clear
 
+        for (int i = 0; i < userList.Count; i++)
+        {
+            userList[i].userCard.Clear();  
+        }
+        //모든 유저의 카드 리스트 clear
+
+        Transform[] deckChildren = deck.GetComponentsInChildren<Transform>();
+        foreach (Transform child in deckChildren)
+        { 
+            if (child.name != deck.gameObject.name)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        Transform[] myDeckChildren = myDeck.GetComponentsInChildren<Transform>();
+        foreach (Transform child in myDeckChildren)
+        {
+            if (child.name != myDeck.gameObject.name)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        //덱(나의 덱, 게임 덱)에올라와 있는 카드를 쓸어담아서 (오브젝트 파괴)
+        initCardDeck();// 카드 덱에 주워담아 정리해주고
     }
     [PunRPC]
     public void giveCard(string userName, string cardcode) {
