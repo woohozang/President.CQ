@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     public GameObject deck;
     public GameObject card;
 
-    public User user;
     public Button start_button;
     public Button end_button;
 
@@ -53,8 +52,10 @@ public class GameManager : MonoBehaviour
         }
         userList[0].SpreadCard();
 
-        user = GameObject.Find("Me").GetComponent<User>();
-
+        start_button.onClick.AddListener(() =>
+        {
+            RoundStart();
+        });
         end_button.onClick.AddListener(() =>
         {
             RoundEnd();
@@ -141,6 +142,13 @@ public class GameManager : MonoBehaviour
             temp.GetComponentInChildren<Card>().CardCode = submittedCard[i];
             temp.GetComponentInChildren<Card>().setCardImg();
         }
+    }
+    public void RoundStart()
+	{
+        //새로운 라운드 시작
+        giveCardToUser(); // 유저에게 카드를 주고
+        userList[0].SpreadCard(); // 나의 덱에 카드를 뿌리고
+    
     }
     public void RoundEnd()
 	{ 
