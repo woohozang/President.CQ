@@ -1,5 +1,4 @@
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,13 +25,15 @@ public class GameManager : MonoBehaviour
     private void init()
     {
         int i = 1;
-        foreach(string s in attenderList) {
+        foreach (string s in attenderList)
+        {
             if ("황윤겔라" == s) //when start test on PhotonNetwork, it must change PhotonNetwork.Nickname 
             {
                 userList[0].Name = s;
                 userList[0].SetName();
             }
-            else {
+            else
+            {
                 userList[i].Name = s;
                 userList[i].SetName();
                 i++;
@@ -64,7 +65,8 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public void initCardDeck() {
+    public void initCardDeck()
+    {
         CardDeck.Clear();
         CardDeck.Add("D01");
         CardDeck.Add("D02");
@@ -136,35 +138,34 @@ public class GameManager : MonoBehaviour
     {
         GameObject temp = Instantiate(card, deckPoint.position, Quaternion.identity); //재생성
 
-        for (int i=0; i<submittedCard.Count; i++)
-		{
-            temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(deckPoint.position.x + (i * 30), deckPoint.position.y, 0), Quaternion.identity);
-            temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
-            temp.name = submittedCard[i];
-            temp.GetComponentInChildren<Card>().CardCode = submittedCard[i];
-            temp.GetComponentInChildren<Card>().setCardImg();
-        }
+
+        temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(deckPoint.position.x +  (submittedCard.Count-1) * 30, deckPoint.position.y, 0), Quaternion.identity);
+        temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
+        temp.name = submittedCard[submittedCard.Count-1];
+        temp.GetComponentInChildren<Card>().CardCode = submittedCard[submittedCard.Count-1];
+        temp.GetComponentInChildren<Card>().setCardImg();
+
     }
     public void RoundStart()
-	{
+    {
         //새로운 라운드 시작
         giveCardToUser(); // 유저에게 카드를 주고
         userList[0].SpreadCard(); // 나의 덱에 카드를 뿌리고
-    
+
     }
     public void RoundEnd()
-	{ 
+    {
         submittedCard.Clear();// 제출된 카드 리스트 clear
 
         for (int i = 0; i < userList.Count; i++)
         {
-            userList[i].userCard.Clear();  
+            userList[i].userCard.Clear();
         }
         //모든 유저의 카드 리스트 clear
 
         Transform[] deckChildren = deck.GetComponentsInChildren<Transform>();
         foreach (Transform child in deckChildren)
-        { 
+        {
             if (child.name != deck.gameObject.name)
             {
                 Destroy(child.gameObject);
@@ -182,16 +183,21 @@ public class GameManager : MonoBehaviour
         initCardDeck();// 카드 덱에 주워담아 정리해주고
     }
     [PunRPC]
-    public void giveCard(string userName, string cardcode) {
-        for (int i=0; i<userList.Count; i++) {
-            if (userList[i].name == userName) {
-                userList[i].userCard.Add(cardcode);                
+    public void giveCard(string userName, string cardcode)
+    {
+        for (int i = 0; i < userList.Count; i++)
+        {
+            if (userList[i].name == userName)
+            {
+                userList[i].userCard.Add(cardcode);
             }
         }
     }
     [PunRPC]
-    void giveCardToUser() {
-        for (int i = 0; i<14; i++) { 
+    void giveCardToUser()
+    {
+        for (int i = 0; i < 14; i++)
+        {
             int r = Random.Range(0, CardDeck.Count);
             giveCard(userList[0].name, CardDeck[r]);
             CardDeck.RemoveAt(r);
@@ -217,11 +223,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    
+
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
