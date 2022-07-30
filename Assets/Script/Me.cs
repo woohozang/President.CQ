@@ -37,7 +37,6 @@ public class Me : User
 
     public override void Submit(string cardcode)
     {
-        Debug.Log(cardcode+"제출");
         userCard.Remove(cardcode);
     }
 

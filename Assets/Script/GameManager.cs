@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,12 +23,21 @@ public class GameManager : MonoBehaviour
     public Button start_button;
     public Button end_button;
 
+    public PhotonView pv;
+
+    public bool ControlSwitch = false;// if not my turn, do not controll the card
+    public bool stopSwitch = false;// if value is true, timer will stop and pass the trun to other user
+
+    public string currentTurnUser = "";
+    public string currentTurnTime = "";
+    public string currentDirection = "";
+    public int cot = 0; //count of turn
     private void init()
     {
         int i = 1;
         foreach (string s in attenderList)
         {
-            if ("황윤겔라" == s) //when start test on PhotonNetwork, it must change PhotonNetwork.Nickname 
+            if (PhotonNetwork.NickName == s) //when start test on PhotonNetwork, it must change PhotonNetwork.Nickname 
             {
                 userList[0].Name = s;
                 userList[0].SetName();
@@ -47,8 +57,6 @@ public class GameManager : MonoBehaviour
     {
         attenderList = GameObject.Find("RoomManager").GetComponent<RoomManager>().attenderList;
         init();
-        initCardDeck();
-        giveCardToUser();
         foreach (User u in userList)
         {
             u.printCardList();
@@ -63,7 +71,14 @@ public class GameManager : MonoBehaviour
         {
             RoundEnd();
         });
+        if (PhotonNetwork.MasterClient.NickName == PhotonNetwork.NickName) {
+            initCardDeck();
+            giveCardToUser();
+            pv.RPC("RoundStart",RpcTarget.All);
+        }
+
     }
+
 
     public void initCardDeck()
     {
@@ -127,6 +142,21 @@ public class GameManager : MonoBehaviour
         CardDeck.Add("JB");
         CardDeck.Add("JC");
     }
+    public IEnumerator CountTime() {
+        float time = 15.0f;
+
+        while (true) {
+            time -= Time.deltaTime;
+            if (time <= 0.0f || stopSwitch) {
+                //TurnEnd();
+                break;
+            }
+            
+            yield return null;
+        }
+        stopSwitch = false;
+    }
+    [PunRPC]
     public void Submitted(string cardcode)
     {
         Debug.Log(cardcode + "제출됨");
@@ -134,10 +164,10 @@ public class GameManager : MonoBehaviour
         ArrangeCard();
 
     }
+    [PunRPC]
     public void ArrangeCard()
     {
         GameObject temp = Instantiate(card, deckPoint.position, Quaternion.identity); //재생성
-
 
         temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(deckPoint.position.x +  (submittedCard.Count-1) * 30, deckPoint.position.y, 0), Quaternion.identity);
         temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
@@ -146,13 +176,46 @@ public class GameManager : MonoBehaviour
         temp.GetComponentInChildren<Card>().setCardImg();
 
     }
+    [PunRPC]
+    public void setTurn(string username) {
+        currentTurnUser = username;
+        StartCoroutine(CountTime());
+    }
+
+    [PunRPC]
+    public void TurnStart(string userName) {
+        if (userName == PhotonNetwork.NickName)
+        {
+            pv.RPC("setTurn", RpcTarget.All, PhotonNetwork.NickName);
+            ControlSwitch = true;
+        }
+        else {
+            ControlSwitch = false;
+        }
+    }
+    [PunRPC]
+    public void TurnEnd(string userName)
+    {
+        if (userName == PhotonNetwork.NickName)
+        {
+            ControlSwitch = false;
+            pv.RPC("setTurn", RpcTarget.All, PhotonNetwork.NickName);
+            //need manage sequence of turn method
+
+        }
+    }
+
+    [PunRPC]
     public void RoundStart()
     {
         //새로운 라운드 시작
-        giveCardToUser(); // 유저에게 카드를 주고
         userList[0].SpreadCard(); // 나의 덱에 카드를 뿌리고
+        if (userList[0].userCard.Contains("D3")) {
+            pv.RPC("TurnStart", RpcTarget.All, PhotonNetwork.NickName);
+        }
 
     }
+    [PunRPC]
     public void RoundEnd()
     {
         submittedCard.Clear();// 제출된 카드 리스트 clear
@@ -193,31 +256,34 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    [PunRPC]
     void giveCardToUser()
     {
         for (int i = 0; i < 14; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
-            giveCard(userList[0].name, CardDeck[r]);
+            //giveCard(userList[0].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[0].name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
         for (int i = 0; i < 14; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
-            giveCard(userList[1].name, CardDeck[r]);
+            //giveCard(userList[1].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[1].name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
         for (int i = 0; i < 13; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
-            giveCard(userList[2].name, CardDeck[r]);
+            //giveCard(userList[2].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[2].name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
         for (int i = 0; i < 13; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
-            giveCard(userList[3].name, CardDeck[r]);
+            //giveCard(userList[3].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[0].name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
 

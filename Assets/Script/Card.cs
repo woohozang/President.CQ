@@ -12,35 +12,42 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     public GameManager gameManager;
     public void OnBeginDrag(PointerEventData eventData)
     {
-        wasPosition = rect.position;
-        rect.parent.localScale = new Vector3(1.3f, 1.3f, 1.3f);
-
+        if (gameManager.ControlSwitch)
+        {
+            wasPosition = rect.position;
+            rect.parent.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+        }
 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rect.parent.position = eventData.position;
+        if (gameManager.ControlSwitch)
+        {
+            rect.parent.position = eventData.position;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        rect.parent.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-        if (isInDeck)
+        if (gameManager.ControlSwitch)
         {
-            user.Submit(CardCode);
+            rect.parent.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-            //�ı�
-            Destroy(rect.parent.gameObject);
-            gameManager.Submitted(CardCode);
+            if (isInDeck)
+            {
+                user.Submit(CardCode);
 
+                //�ı�
+                Destroy(rect.parent.gameObject);
+                gameManager.Submitted(CardCode);
+
+            }
+            else
+            {
+                rect.position = wasPosition;
+            }
         }
-        else
-        {
-            rect.position = wasPosition;
-        }
-
     }
 
 

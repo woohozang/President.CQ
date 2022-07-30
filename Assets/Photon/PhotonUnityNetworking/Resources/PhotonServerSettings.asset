@@ -44,6 +44,13 @@ MonoBehaviour:
   - RemoveAttender
   - giveCard
   - giveCardToUser
+  - RoundEnd
+  - RoundStart
+  - TurnStart
+  - setTurn
+  - ArrangeCard
+  - Submitted
+  - TurnEnd
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
