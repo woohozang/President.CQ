@@ -387,6 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userCard: []
   nameText: {fileID: 1315246254}
+  currentCards: {fileID: 426703417}
 --- !u!1 &380481590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,7 +1593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1136410866
 Transform:
   m_ObjectHideFlags: 0
@@ -3052,6 +3053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userCard: []
   nameText: {fileID: 1422196656}
+  currentCards: {fileID: 965200630}
 --- !u!1 &2008338120
 GameObject:
   m_ObjectHideFlags: 0
@@ -3301,6 +3303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userCard: []
   nameText: {fileID: 2008338121}
+  currentCards: {fileID: 1427943792}
 --- !u!1 &2037248287
 GameObject:
   m_ObjectHideFlags: 0
@@ -3438,6 +3441,7 @@ MonoBehaviour:
   - {fileID: 1951783184}
   - {fileID: 235699027}
   - {fileID: 2032440258}
+  attenderList: []
   submittedCard: []
   myDeck: {fileID: 2014792742}
   deck: {fileID: 1950569199}
@@ -3445,7 +3449,7 @@ MonoBehaviour:
   deckPoint: {fileID: 1950569200}
   start_button: {fileID: 1261214743}
   end_button: {fileID: 381680831}
-  pv: {fileID: 0}
+  pv: {fileID: 2128010561}
   ControlSwitch: 0
   stopSwitch: 0
   currentTurnUser: 

@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     public List<User> userList;
+
+    [SerializeField]
     List<string> attenderList;
 
     List<string> CardDeck = new List<string>();
@@ -56,6 +58,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         attenderList = GameObject.Find("RoomManager").GetComponent<RoomManager>().attenderList;
+        if (attenderList.Count != 4) {
+            for (int i = attenderList.Count; i < 4; i++) {
+                attenderList.Add("AI_"+i);
+            }
+        }
         init();
         foreach (User u in userList)
         {
@@ -283,7 +290,7 @@ public class GameManager : MonoBehaviour
         {
             int r = Random.Range(0, CardDeck.Count);
             //giveCard(userList[3].name, CardDeck[r]);
-            pv.RPC("giveCard", RpcTarget.All, userList[0].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[3].name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
 

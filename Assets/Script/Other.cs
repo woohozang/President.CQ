@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Other :  User
 {
     public Text nameText;
+    public Text currentCards;
 
     public override string Name { get; set ; }
 
@@ -26,7 +27,6 @@ public class Other :  User
 
     public override void Submit(string cardcode)
     {
-
     }
 
 
@@ -37,8 +37,9 @@ public class Other :  User
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        currentCards.text = "남은 카드 : " + userCard.Count;
+
     }
 }

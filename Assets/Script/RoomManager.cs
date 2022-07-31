@@ -22,6 +22,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        DontDestroyOnLoad(this);
         if (SceneManager.GetActiveScene().name == "Room_Scene")
         {
             RoomNameText.text = PhotonNetwork.CurrentRoom.Name;
