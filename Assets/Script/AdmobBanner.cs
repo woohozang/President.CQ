@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleMobileAds.Api;
 
-public class Admob : MonoBehaviour
+public class AdmobBanner : MonoBehaviour
 {
-    public static Admob instance;
+    public static AdmobBanner instance;
 
-    BannerView bannerView; // ±¤°í¹è³Ê
+    BannerView bannerView; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    public static Admob Instance
+    public static AdmobBanner Instance
     {
         get { return instance; }
     }
@@ -24,7 +24,7 @@ public class Admob : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        RequestBanner(); // ¹è³Ê ±¤°í ¼³Á¤
+        RequestBanner(); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void RequestBanner()
