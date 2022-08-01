@@ -39,7 +39,7 @@ public class Other :  User
     // Update is called once per frame
     void FixedUpdate()
     {
-        currentCards.text = "³²Àº Ä«µå : " + userCard.Count;
+        currentCards.text = "ë‚¨ì€ ì¹´ë“œ : " + userCard.Count;
 
     }
 }

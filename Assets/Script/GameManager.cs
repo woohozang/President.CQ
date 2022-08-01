@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
         {
             u.printCardList();
         }
-        userList[0].SpreadCard();
 
         start_button.onClick.AddListener(() =>
         {
