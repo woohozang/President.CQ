@@ -40,7 +40,7 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
                 //�ı�
                 Destroy(rect.parent.gameObject);
-                gameManager.Submitted(CardCode);
+                gameManager.SubmittedRPC(CardCode);
 
             }
             else
