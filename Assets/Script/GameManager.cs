@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
@@ -80,6 +79,10 @@ public class GameManager : MonoBehaviour
             RoundEnd();
         });
         submit_button.onClick.AddListener(() =>
+        {
+            stopSwitch = true;
+        });
+        pass_button.onClick.AddListener(() =>
         {
             stopSwitch = true;
         });
@@ -209,6 +212,13 @@ public class GameManager : MonoBehaviour
         }
     }
     [PunRPC]
+    public void TurnNext()
+    {
+        int index;
+        index = userList.FindIndex(x=> x.Name==currentTurnUser);
+        TurnStart(userList[(index + 1)%4].Name);
+    }
+    [PunRPC]
     public void TurnEnd(string userName)
     {
         if (userName == PhotonNetwork.NickName)
@@ -216,7 +226,8 @@ public class GameManager : MonoBehaviour
             ControlSwitch = false;
             pv.RPC("setTurn", RpcTarget.All, PhotonNetwork.NickName);
             //need manage sequence of turn method
-
+            StopCoroutine(CountTime());
+            TurnNext();
         }
     }
 
