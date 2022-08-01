@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < userList.Count; i++)
         {
-            if (userList[i].name == userName)
+            if (userList[i].Name == userName)
             {
                 userList[i].userCard.Add(cardcode);
             }
@@ -268,28 +268,28 @@ public class GameManager : MonoBehaviour
         {
             int r = Random.Range(0, CardDeck.Count);
             //giveCard(userList[0].name, CardDeck[r]);
-            pv.RPC("giveCard", RpcTarget.All, userList[0].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[0].Name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < 1; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
             //giveCard(userList[1].name, CardDeck[r]);
-            pv.RPC("giveCard", RpcTarget.All, userList[1].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[1].Name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
         for (int i = 0; i < 13; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
             //giveCard(userList[2].name, CardDeck[r]);
-            pv.RPC("giveCard", RpcTarget.All, userList[2].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[2].Name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
         for (int i = 0; i < 13; i++)
         {
             int r = Random.Range(0, CardDeck.Count);
             //giveCard(userList[3].name, CardDeck[r]);
-            pv.RPC("giveCard", RpcTarget.All, userList[3].name, CardDeck[r]);
+            pv.RPC("giveCard", RpcTarget.All, userList[3].Name, CardDeck[r]);
             CardDeck.RemoveAt(r);
         }
 
