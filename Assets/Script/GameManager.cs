@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     public Button start_button;
     public Button end_button;
+    public Button submit_button;
+    public Button pass_button;
 
     public PhotonView pv;
 
@@ -76,6 +78,10 @@ public class GameManager : MonoBehaviour
         end_button.onClick.AddListener(() =>
         {
             RoundEnd();
+        });
+        submit_button.onClick.AddListener(() =>
+        {
+            stopSwitch = true;
         });
         if (PhotonNetwork.MasterClient.NickName == PhotonNetwork.NickName) {
             initCardDeck();
