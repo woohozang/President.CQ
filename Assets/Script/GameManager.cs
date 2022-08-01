@@ -216,7 +216,7 @@ public class GameManager : MonoBehaviour
     {
         //새로운 라운드 시작
         userList[0].SpreadCard(); // 나의 덱에 카드를 뿌리고
-        if (userList[0].userCard.Contains("D3")) {
+        if (userList[0].userCard.Contains("D03")) {
             pv.RPC("TurnStart", RpcTarget.All, PhotonNetwork.NickName);
         }
 
