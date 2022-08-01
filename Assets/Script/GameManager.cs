@@ -162,6 +162,9 @@ public class GameManager : MonoBehaviour
         }
         stopSwitch = false;
     }
+    public void SubmittedRPC(string cardcode) {
+        pv.RPC("Submitted", RpcTarget.All, cardcode);
+    }
     [PunRPC]
     public void Submitted(string cardcode)
     {
