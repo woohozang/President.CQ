@@ -291,6 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userCard: []
+  cardObjList: []
   nameText: {fileID: 823854581}
   myDeck: {fileID: 2014792742}
   card: {fileID: 3850010391593021500, guid: 16bd8ae04e325411db5f538f69478b52, type: 3}
@@ -386,6 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userCard: []
+  cardObjList: []
   nameText: {fileID: 1315246254}
   currentCards: {fileID: 426703417}
 --- !u!1 &380481590
@@ -3052,6 +3054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userCard: []
+  cardObjList: []
   nameText: {fileID: 1422196656}
   currentCards: {fileID: 965200630}
 --- !u!1 &2008338120
@@ -3302,6 +3305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userCard: []
+  cardObjList: []
   nameText: {fileID: 2008338121}
   currentCards: {fileID: 1427943792}
 --- !u!1 &2037248287
@@ -3451,6 +3455,7 @@ MonoBehaviour:
   end_button: {fileID: 381680831}
   submit_button: {fileID: 0}
   pass_button: {fileID: 0}
+  timeText: {fileID: 1106015986}
   pv: {fileID: 2128010561}
   ControlSwitch: 0
   stopSwitch: 0

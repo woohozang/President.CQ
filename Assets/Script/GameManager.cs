@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public Button submit_button;
     public Button pass_button;
 
+    public Text timeText;
+
     public PhotonView pv;
 
     public bool ControlSwitch = false;// if not my turn, do not controll the card
@@ -163,10 +165,12 @@ public class GameManager : MonoBehaviour
         while (true) {
             time -= Time.deltaTime;
             if (time <= 0.0f || stopSwitch) {
+
                 //TurnEnd();
                 break;
             }
-            
+
+            timeText.text = time.ToString();            
             yield return null;
         }
         stopSwitch = false;
