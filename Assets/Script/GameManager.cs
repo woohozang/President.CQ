@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
     List<string> CardDeck = new List<string>();
 
     public List<string> submittedCard = new List<string>();
+    public List<string> tempCard = new List<string>();
 
     public GameObject myDeck;
     public GameObject deck;
     public GameObject card;
 
     public RectTransform deckPoint;
+    public RectTransform myDeckPoint;
 
     public Button start_button;
     public Button end_button;
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
     public Text timeText;
 
     public PhotonView pv;
-
+    public User user;
     public bool ControlSwitch = false;// if not my turn, do not controll the card
     public bool stopSwitch = false;// if value is true, timer will stop and pass the trun to other user
 
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
                 attenderList.Add("AI_"+i);
             }
         }
+        user = GameObject.Find("Me").GetComponent<User>();
         init();
         foreach (User u in userList)
         {
@@ -80,14 +83,14 @@ public class GameManager : MonoBehaviour
         {
             RoundEnd();
         });
-        /*submit_button.onClick.AddListener(() =>
+        submit_button.onClick.AddListener(() =>
         {
-            stopSwitch = true;
+            Submit();
         });
         pass_button.onClick.AddListener(() =>
         {
-            stopSwitch = true;
-        });*/
+            Pass();
+        });
         if (PhotonNetwork.MasterClient.NickName == PhotonNetwork.NickName) {
             initCardDeck();
             giveCardToUser();
@@ -170,20 +173,74 @@ public class GameManager : MonoBehaviour
                 break;
             }
 
-            timeText.text = time.ToString();            
+            timeText.text = $"{time:N0}";            
             yield return null;
         }
         stopSwitch = false;
+        Pass();
     }
-    public void SubmittedRPC(string cardcode) {
-        pv.RPC("Submitted", RpcTarget.All, cardcode);
+    public void SubmittedRPC(List<string> list) {
+        pv.RPC("Submitted", RpcTarget.All, list);
+    }
+    //1. 카드를 내면 (turn인 대상이 카드가 isIndeck)
+    //1.1 temp Card에 카드가 추가되고
+    //1.2 낸카드 정렬(deck)
+
+    //2. 제출 버튼 누르면
+    //2.1 User 카드리스트의 낸 카드는 비워지고
+    //2.2 SubCard는 비워지고
+    //2.3 SubmittedCard는 채워지고
+    //2.4 SubmittedCard에 있는 카드들을 deck의 child로 
+    //2.5 nextTurn
+
+    //3. 제출 버튼을 누르지 않으면(pass or countdown)
+    //3.1 SubCard는 비워지고
+    //3.2 이동된 카드 다시 원 위치(mydeck)
+    //3.3 nextTurn
+    public void Temp(string cardcode)
+    {
+        Debug.Log(cardcode + "덱에 올림");
+        tempCard.Add(cardcode); //1.1
+        //ArrangeCard();
+        ArrangeCard1(deckPoint, submittedCard.Count, submittedCard);//1.2
+    }
+    public void Submit()
+    {
+        //2. 제출 버튼 누르면
+        //2.1 User 카드리스트의 낸 카드는 비워지고
+
+        //2.2 tempCard로 SubmittedCard는 채워지고
+        //2.3 tempCard는 비워지고
+        //2.4 SubmittedCard에 있는 카드들을 deck의 child로 
+        //2.5 nextTurn
+
+        for(int i=0; i<tempCard.Count; i++)
+        {
+            user.Submit(tempCard[i]);
+        }//2.1
+
+        SubmittedRPC(tempCard);//2.2, 2.4
+        tempCard.Clear();//2.3
+
+        stopSwitch = true;  //2.5
+    }
+    public void Pass()
+    {
+        //3. 제출 버튼을 누르지 않으면(pass or countdown)
+        //3.1 tempCard는 비워지고
+        //3.2 이동된 카드(tempCard에 있던 카드들 다시 mydeck의 child로 원 위치)
+        //3.3 nextTurn
+
+        tempCard.Clear();//3.1
+        ArrangeCard1(myDeckPoint, user.userCard.Count, user.userCard);//3.2
+        stopSwitch = true;
     }
     [PunRPC]
-    public void Submitted(string cardcode)
+    public void Submitted(List<string> list)
     {
-        Debug.Log(cardcode + "제출됨");
-        submittedCard.Add(cardcode);
-        ArrangeCard();
+        Debug.Log(list.Count + "개의 카드가 제출됨");
+        submittedCard.AddRange(list);
+        //ArrangeCard1(deckPoint, submittedCard.Count, submittedCard);
 
     }
     [PunRPC]
@@ -197,6 +254,17 @@ public class GameManager : MonoBehaviour
         temp.GetComponentInChildren<Card>().CardCode = submittedCard[submittedCard.Count-1];
         temp.GetComponentInChildren<Card>().setCardImg();
 
+    }
+    [PunRPC]
+    public void ArrangeCard1(RectTransform rect, int count, List<string> list )// 일단 실험삼아 만들어놓음 나중에 이름 바꿀게
+    {
+        GameObject temp = Instantiate(card, rect.position, Quaternion.identity); //재생성
+
+        temp.gameObject.GetComponent<RectTransform>().SetPositionAndRotation(new Vector3(rect.position.x + (count - 1) * 30, rect.position.y, 0), Quaternion.identity);
+        temp.GetComponent<RectTransform>().SetParent(deck.GetComponent<RectTransform>());
+        temp.name = list[count - 1];
+        temp.GetComponentInChildren<Card>().CardCode = list[count - 1];
+        temp.GetComponentInChildren<Card>().setCardImg();
     }
     [PunRPC]
     public void setTurn(string username) {

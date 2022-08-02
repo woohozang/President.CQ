@@ -36,11 +36,13 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
             if (isInDeck)
             {
-                user.Submit(CardCode);
+                gameManager.Temp(CardCode);
+
+                //user.Submit(CardCode);
 
                 //�ı�
                 Destroy(rect.parent.gameObject);
-                gameManager.SubmittedRPC(CardCode);
+                //gameManager.SubmittedRPC(CardCode);
 
             }
             else
