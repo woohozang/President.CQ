@@ -45,7 +45,7 @@ public abstract class User : MonoBehaviour
     public void changeColor(string lastValue)
     {
 
-        for (int i = 0; i < cardObjList.Count - 1; i++)
+        for (int i = 0; i < cardObjList.Count; i++)
         {
 
             if (!submitCard(lastValue, cardObjList[i].GetComponent<Card>().CardCode))
