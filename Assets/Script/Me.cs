@@ -32,6 +32,7 @@ public class Me : User
             temp.GetComponentInChildren<Card>().CardCode = s;
             temp.GetComponentInChildren<Card>().setCardImg();
             i++;
+            cardObjList.Add(temp);
         }
     }
 
@@ -53,4 +54,8 @@ public class Me : User
     {
         
     }
+
+    
+    
+
 }

@@ -51,6 +51,7 @@ MonoBehaviour:
   - ArrangeCard
   - Submitted
   - TurnEnd
+  - TurnNext
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
