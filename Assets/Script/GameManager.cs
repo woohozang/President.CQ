@@ -78,14 +78,14 @@ public class GameManager : MonoBehaviour
         {
             RoundEnd();
         });
-        submit_button.onClick.AddListener(() =>
+        /*submit_button.onClick.AddListener(() =>
         {
             stopSwitch = true;
         });
         pass_button.onClick.AddListener(() =>
         {
             stopSwitch = true;
-        });
+        });*/
         if (PhotonNetwork.MasterClient.NickName == PhotonNetwork.NickName) {
             initCardDeck();
             giveCardToUser();
