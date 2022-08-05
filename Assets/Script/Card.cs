@@ -80,9 +80,10 @@ public class Card : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         gameObject.GetComponent<CardVO>().setCardImg(CardCode);
 
     }
-    /*
-    public void CardClick()
+    
+    /*private void OnMouseDown()
     {
+        gameObject.GetComponent<GameManager>().myDeck.GetComponent<Collider2D>();
         isSelected = true;
     }
     public IEnumerator CardSelect(GameObject c)
